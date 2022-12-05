@@ -6,7 +6,7 @@
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
 		<version>2.7.6</version>
-		<relativePath/>
+		<relativePath />
 	</parent>
 	<groupId>com.thuytrang</groupId>
 	<artifactId>little-flower-shop</artifactId>
@@ -17,82 +17,82 @@
 	<properties>
 		<java.version>19</java.version>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <spring.boot.version>2.7.6</spring.boot.version>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<spring.boot.version>2.7.6</spring.boot.version>
 	</properties>
 	<dependencies>
-        <!-- Spring MVC Dependency-->
+		<!-- Spring MVC Dependency-->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
-            <version>${spring.boot.version}</version>
+			<version>${spring.boot.version}</version>
 		</dependency>
 
-        <!-- Spring Tomcat Dependency-->
+		<!-- Spring Tomcat Dependency-->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-tomcat</artifactId>
 			<scope>provided</scope>
-            <version>${spring.boot.version}</version>
+			<version>${spring.boot.version}</version>
 		</dependency>
 
-        <!-- Spring Thymeleaf Dependency-->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-thymeleaf</artifactId>
-            <version>${spring.boot.version}</version>
-        </dependency>
+		<!-- Spring Thymeleaf Dependency-->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-thymeleaf</artifactId>
+			<version>${spring.boot.version}</version>
+		</dependency>
 
-        <!-- Spring JPA Dependency-->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-jpa</artifactId>
-            <version>${spring.boot.version}</version>
-        </dependency>
+		<!-- Spring JPA Dependency-->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-jpa</artifactId>
+			<version>${spring.boot.version}</version>
+		</dependency>
 
-        <!-- Spring Devtools Dependency-->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-devtools</artifactId>
-            <version>${spring.boot.version}</version>
-        </dependency>
+		<!-- Spring Devtools Dependency-->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-devtools</artifactId>
+			<version>${spring.boot.version}</version>
+		</dependency>
 
-        <!-- Spring Test Dependency-->
+		<!-- Spring Test Dependency-->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
-            <version>${spring.boot.version}</version>
+			<version>${spring.boot.version}</version>
 		</dependency>
 
-        <!-- Lombok Dependency -->
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <version>1.18.22</version>
-            <scope>provided</scope>
-        </dependency>
+		<!-- Lombok Dependency -->
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<version>1.18.22</version>
+			<scope>provided</scope>
+		</dependency>
 
-        <!-- JDBC Dependency -->
-        <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-            <version>8.0.30</version>
-        </dependency>
+		<!-- JDBC Dependency -->
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>8.0.30</version>
+		</dependency>
 
-        <!-- CSS Bootstrap Dependency -->
+		<!-- CSS Bootstrap Dependency -->
 		<dependency>
 			<groupId>org.webjars.npm</groupId>
 			<artifactId>bootstrap</artifactId>
 			<version>5.0.0</version>
 		</dependency>
 
-        <!-- OpenAPI Dependency -->
-        <dependency>
-            <groupId>org.springdoc</groupId>
-            <artifactId>springdoc-openapi-ui</artifactId>
-            <version>1.6.12</version>
-        </dependency>
+		<!-- OpenAPI Dependency -->
+		<dependency>
+			<groupId>org.springdoc</groupId>
+			<artifactId>springdoc-openapi-ui</artifactId>
+			<version>1.6.12</version>
+		</dependency>
 	</dependencies>
 
 	<build>
