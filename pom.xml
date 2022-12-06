@@ -50,6 +50,12 @@
 			<version>${spring.boot.version}</version>
 		</dependency>
 
+		<!-- Spring Validation Dependency-->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-validation</artifactId>
+		</dependency>
+
 		<!-- Spring Devtools Dependency-->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
