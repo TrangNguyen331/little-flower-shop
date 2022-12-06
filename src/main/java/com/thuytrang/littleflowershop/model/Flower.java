@@ -21,13 +21,13 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Entity
 @Builder
 @AllArgsConstructor(access = AccessLevel.PACKAGE)
-@Getter
-@Setter(value = AccessLevel.PACKAGE)
+@Getter @Setter(value = AccessLevel.PACKAGE)
 @Table(
     name = "flowers",
     uniqueConstraints = {
@@ -41,10 +41,11 @@ public class Flower {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank
+    @NotBlank(message = "Kind of flower required")
     @Column(name = "kind")
     private String kind;
 
+    @NotNull(message = "Color of flower required")
     @Enumerated(EnumType.STRING)
     @Column(name = "color")
     private EColor color;

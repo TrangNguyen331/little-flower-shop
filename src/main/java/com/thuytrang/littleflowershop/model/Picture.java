@@ -22,8 +22,7 @@ import javax.validation.constraints.NotBlank;
 @Entity
 @Builder
 @AllArgsConstructor(access = AccessLevel.PACKAGE)
-@Getter
-@Setter(value = AccessLevel.PACKAGE)
+@Getter @Setter(value = AccessLevel.PACKAGE)
 @Table(
     name = "pictures",
     uniqueConstraints = {
@@ -37,11 +36,11 @@ public class Picture {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank
+    @NotBlank(message = "Picture name required")
     @Column(name = "name")
     private String name;
 
-    @NotBlank
+    @NotBlank(message = "Picture url required")
     @Column(name = "url")
     private String url;
 

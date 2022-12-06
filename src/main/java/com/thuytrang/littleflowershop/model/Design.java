@@ -22,8 +22,7 @@ import java.util.List;
 @Entity
 @Builder
 @AllArgsConstructor(access = AccessLevel.PACKAGE)
-@Getter
-@Setter(value = AccessLevel.PACKAGE)
+@Getter @Setter(value = AccessLevel.PACKAGE)
 @Table(
     name = "designs",
     uniqueConstraints = {
@@ -37,7 +36,7 @@ public class Design {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank
+    @NotBlank(message = "Design name required")
     @Column(name = "name")
     private String name;
 

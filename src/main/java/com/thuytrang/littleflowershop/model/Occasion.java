@@ -24,8 +24,7 @@ import java.util.List;
 @Entity
 @Builder
 @AllArgsConstructor(access = AccessLevel.PACKAGE)
-@Getter
-@Setter(value = AccessLevel.PACKAGE)
+@Getter @Setter(value = AccessLevel.PACKAGE)
 @Table(
     name = "occasions",
     uniqueConstraints = {
@@ -39,7 +38,7 @@ public class Occasion {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank
+    @NotBlank(message = "Occasion name required")
     @Column(name = "name")
     private String name;
 

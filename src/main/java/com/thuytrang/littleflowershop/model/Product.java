@@ -24,14 +24,14 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.util.List;
 
 @Entity
 @Builder
 @AllArgsConstructor(access = AccessLevel.PACKAGE)
-@Getter
-@Setter(value = AccessLevel.PACKAGE)
+@Getter @Setter(value = AccessLevel.PACKAGE)
 @ToString
 @EqualsAndHashCode
 @Table(name = "products")
@@ -42,7 +42,7 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank
+    @NotBlank(message = "Product name required")
     @Column(name = "name")
     private String name;
 
@@ -55,10 +55,11 @@ public class Product {
     @Column(name = "dimensions")
     private String dimensions;
 
-    @NotEmpty
+    @NotEmpty(message = "Product price required")
     @Column(name = "price")
     private BigDecimal price;
 
+    @NotNull(message = "Product design style required")
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_design")
     private Design design;
