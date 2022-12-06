@@ -9,8 +9,6 @@ import lombok.experimental.Tolerate;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -29,34 +27,30 @@ import java.util.List;
 @Getter
 @Setter(value = AccessLevel.PACKAGE)
 @Table(
-    name = "flowers",
+    name = "occasions",
     uniqueConstraints = {
-        @UniqueConstraint(columnNames = {"kind", "color"}, name = "uk_flower_kind_color")
+        @UniqueConstraint(columnNames = "name", name = "uk_occasion_name")
     }
 )
-public class Flower {
+public class Occasion {
     private static final long serialVersionUID = 1L;
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NotBlank
-    @Column(name = "kind")
-    private String kind;
-
-    @Enumerated(EnumType.STRING)
-    @Column(name = "color")
-    private EColor color;
+    @Column(name = "name")
+    private String name;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
-        name = "product_flower",
-        joinColumns = @JoinColumn(name = "id_flower", referencedColumnName = "id"),
+        name = "product_occasion",
+        joinColumns = @JoinColumn(name = "id_occasion", referencedColumnName = "id"),
         inverseJoinColumns = @JoinColumn(name = "id_product", referencedColumnName = "id")
     )
     private List<Product> products;
 
     @Tolerate
-    public Flower() { }
+    public Occasion() { }
 }

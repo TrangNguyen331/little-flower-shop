@@ -9,19 +9,15 @@ import lombok.experimental.Tolerate;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotBlank;
-import java.util.List;
 
 @Entity
 @Builder
@@ -29,34 +25,30 @@ import java.util.List;
 @Getter
 @Setter(value = AccessLevel.PACKAGE)
 @Table(
-    name = "flowers",
+    name = "pictures",
     uniqueConstraints = {
-        @UniqueConstraint(columnNames = {"kind", "color"}, name = "uk_flower_kind_color")
+        @UniqueConstraint(columnNames = "url", name = "uk_picture_url")
     }
 )
-public class Flower {
+public class Picture {
     private static final long serialVersionUID = 1L;
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NotBlank
-    @Column(name = "kind")
-    private String kind;
+    @Column(name = "name")
+    private String name;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "color")
-    private EColor color;
+    @NotBlank
+    @Column(name = "url")
+    private String url;
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(
-        name = "product_flower",
-        joinColumns = @JoinColumn(name = "id_flower", referencedColumnName = "id"),
-        inverseJoinColumns = @JoinColumn(name = "id_product", referencedColumnName = "id")
-    )
-    private List<Product> products;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_product")
+    private Product product;
 
     @Tolerate
-    public Flower() { }
+    public Picture() { }
 }

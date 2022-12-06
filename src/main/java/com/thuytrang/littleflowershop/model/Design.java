@@ -7,17 +7,13 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Tolerate;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotBlank;
@@ -29,34 +25,29 @@ import java.util.List;
 @Getter
 @Setter(value = AccessLevel.PACKAGE)
 @Table(
-    name = "flowers",
+    name = "designs",
     uniqueConstraints = {
-        @UniqueConstraint(columnNames = {"kind", "color"}, name = "uk_flower_kind_color")
+        @UniqueConstraint(columnNames = "name", name = "uk_design_name")
     }
 )
-public class Flower {
+public class Design {
     private static final long serialVersionUID = 1L;
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NotBlank
-    @Column(name = "kind")
-    private String kind;
+    @Column(name = "name")
+    private String name;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "color")
-    private EColor color;
-
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(
-        name = "product_flower",
-        joinColumns = @JoinColumn(name = "id_flower", referencedColumnName = "id"),
-        inverseJoinColumns = @JoinColumn(name = "id_product", referencedColumnName = "id")
+    @OneToMany(
+        mappedBy = "design",
+        cascade = CascadeType.ALL,
+        orphanRemoval = true
     )
     private List<Product> products;
 
     @Tolerate
-    public Flower() { }
+    public Design() { }
 }
