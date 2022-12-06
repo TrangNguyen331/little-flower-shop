@@ -17,13 +17,14 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotBlank;
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.List;
 
 @Entity
 @Builder
 @AllArgsConstructor(access = AccessLevel.PACKAGE)
-@Getter @Setter(value = AccessLevel.PACKAGE)
+@Getter @Setter(value = AccessLevel.PUBLIC)
 @Table(
     name = "designs",
     uniqueConstraints = {
@@ -31,6 +32,7 @@ import java.util.List;
     }
 )
 public class Design implements Serializable {
+    @Serial
     private static final long serialVersionUID = 1L;
 
     @Id
