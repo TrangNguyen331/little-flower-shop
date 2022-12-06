@@ -1,27 +1,29 @@
 package com.thuytrang.littleflowershop.model;
 
-import javax.persistence.CascadeType;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.experimental.Tolerate;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import java.util.List;
 
-import lombok.Builder;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
-
-@Getter
-@Setter
-@Builder
-@ToString
-@EqualsAndHashCode(of = {"kind", "color"})
 @Entity
+@Builder
+@AllArgsConstructor(access = AccessLevel.PACKAGE)
+@Getter
+@Setter(value = AccessLevel.PACKAGE)
 @Table(name = "flowers")
 public class Flower {
 
@@ -37,7 +39,14 @@ public class Flower {
     @Column(name = "color")
     private String color;
 
-    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+        name = "product_flower",
+        joinColumns = @JoinColumn(name = "id_flower", referencedColumnName = "id"),
+        inverseJoinColumns = @JoinColumn(name = "id_product", referencedColumnName = "id")
+    )
     private List<Product> products;
 
+    @Tolerate
+    public Flower() { }
 }
