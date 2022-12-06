@@ -18,6 +18,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotBlank;
+import java.io.Serializable;
 
 @Entity
 @Builder
@@ -29,7 +30,7 @@ import javax.validation.constraints.NotBlank;
         @UniqueConstraint(columnNames = "url", name = "uk_picture_url")
     }
 )
-public class Picture {
+public class Picture implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id

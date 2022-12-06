@@ -22,6 +22,7 @@ import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 import java.util.List;
 
 @Entity
@@ -34,7 +35,7 @@ import java.util.List;
         @UniqueConstraint(columnNames = {"kind", "color"}, name = "uk_flower_kind_color")
     }
 )
-public class Flower {
+public class Flower implements Serializable {
     private static final long serialVersionUID = 1L;
     
     @Id

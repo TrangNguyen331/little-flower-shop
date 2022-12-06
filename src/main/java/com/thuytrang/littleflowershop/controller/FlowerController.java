@@ -46,10 +46,10 @@ public class FlowerController {
     }
 
     @PostMapping
-    public ResponseEntity<Flower> saveFlower(
+    public ResponseEntity<Flower> createFlower(
         @RequestBody @Validated Flower flower
     ) {
-        Flower response = flowerService.saveFlower(flower);
+        Flower response = flowerService.createFlower(flower);
 
         return new ResponseEntity<>(
             response,

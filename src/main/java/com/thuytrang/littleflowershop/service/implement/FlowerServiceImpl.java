@@ -15,7 +15,7 @@ public class FlowerServiceImpl implements FlowerService {
     }
 
     @Override
-    public Flower saveFlower(Flower flower) {
+    public Flower createFlower(Flower flower) {
         return null;
     }
 

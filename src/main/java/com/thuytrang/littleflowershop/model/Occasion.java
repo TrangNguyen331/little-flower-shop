@@ -19,6 +19,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotBlank;
+import java.io.Serializable;
 import java.util.List;
 
 @Entity
@@ -31,7 +32,7 @@ import java.util.List;
         @UniqueConstraint(columnNames = "name", name = "uk_occasion_name")
     }
 )
-public class Occasion {
+public class Occasion implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
