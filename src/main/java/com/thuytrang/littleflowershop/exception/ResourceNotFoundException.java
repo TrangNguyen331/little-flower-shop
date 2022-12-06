@@ -30,6 +30,7 @@ public class ResourceNotFoundException extends RuntimeException {
         this.apiResponse = APIResponse.builder()
             .success(Boolean.FALSE)
             .message(message)
+            .status(HttpStatus.NOT_FOUND)
             .build();
     }
 

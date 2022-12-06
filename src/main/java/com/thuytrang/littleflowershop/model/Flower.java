@@ -22,6 +22,7 @@ import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.List;
 
@@ -36,6 +37,7 @@ import java.util.List;
     }
 )
 public class Flower implements Serializable {
+    @Serial
     private static final long serialVersionUID = 1L;
     
     @Id

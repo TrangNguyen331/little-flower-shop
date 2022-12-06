@@ -18,6 +18,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotBlank;
+import java.io.Serial;
 import java.io.Serializable;
 
 @Entity
@@ -31,6 +32,7 @@ import java.io.Serializable;
     }
 )
 public class Picture implements Serializable {
+    @Serial
     private static final long serialVersionUID = 1L;
 
     @Id
