@@ -17,8 +17,8 @@ import org.springframework.boot.autoconfigure.domain.EntityScan;
         )
     )
 )
-@SpringBootApplication
 @EntityScan(basePackageClasses = LittleFlowerShopApplication.class)
+@SpringBootApplication
 public class LittleFlowerShopApplication {
 
     public static void main(String[] args) {
