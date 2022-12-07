@@ -1,6 +1,8 @@
 package com.thuytrang.littleflowershop.controller;
 
-import com.thuytrang.littleflowershop.model.Flower;
+import com.thuytrang.littleflowershop.payload.request.FlowerRequest;
+import com.thuytrang.littleflowershop.payload.response.APIResponse;
+import com.thuytrang.littleflowershop.payload.response.FlowerResponse;
 import com.thuytrang.littleflowershop.service.FlowerService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,8 +28,8 @@ public class FlowerController {
     private FlowerService flowerService;
 
     @GetMapping
-    public ResponseEntity<List<Flower>> retrievalFlowers() {
-        List<Flower> response = flowerService.retrievalFlowers();
+    public ResponseEntity<List<FlowerResponse>> retrievalFlowers() {
+        List<FlowerResponse> response = flowerService.retrievalFlowers();
 
         return new ResponseEntity<>(
             response,
@@ -36,10 +38,10 @@ public class FlowerController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Flower> detailFlower(
+    public ResponseEntity<FlowerResponse> detailFlower(
         @PathVariable(name = "id") Long id
     ) {
-        Flower response = flowerService.detailFlower(id);
+        FlowerResponse response = flowerService.detailFlower(id);
 
         return new ResponseEntity<>(
             response,
@@ -48,10 +50,10 @@ public class FlowerController {
     }
 
     @PostMapping
-    public ResponseEntity<Flower> createFlower(
-        @RequestBody @Validated Flower flower
+    public ResponseEntity<FlowerResponse> createFlower(
+        @RequestBody @Validated FlowerRequest flower
     ) {
-        Flower response = flowerService.createFlower(flower);
+        FlowerResponse response = flowerService.createFlower(flower);
 
         return new ResponseEntity<>(
             response,
@@ -60,11 +62,11 @@ public class FlowerController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Flower> updateFlower(
+    public ResponseEntity<FlowerResponse> updateFlower(
         @PathVariable(name = "id") Long id,
-        @RequestBody @Validated Flower flower
+        @RequestBody @Validated FlowerRequest flower
     ) {
-        Flower response = flowerService.updateFlower(id, flower);
+        FlowerResponse response = flowerService.updateFlower(id, flower);
 
         return new ResponseEntity<>(
             response,
@@ -73,13 +75,13 @@ public class FlowerController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteFlower(
+    public ResponseEntity<APIResponse> deleteFlower(
         @PathVariable(name = "id") Long id
     ) {
-        flowerService.deleteFlower(id);
+        APIResponse response = flowerService.deleteFlower(id);
 
-        return new ResponseEntity<String>(
-            "Delete success",
+        return new ResponseEntity<>(
+            response,
             HttpStatus.OK
         );
     }

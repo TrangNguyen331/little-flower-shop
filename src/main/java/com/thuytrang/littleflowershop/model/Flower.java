@@ -29,7 +29,7 @@ import java.util.List;
 @Entity
 @Builder
 @AllArgsConstructor(access = AccessLevel.PACKAGE)
-@Getter @Setter(value = AccessLevel.PACKAGE)
+@Getter @Setter(value = AccessLevel.PUBLIC)
 @Table(
     name = "flowers",
     uniqueConstraints = {

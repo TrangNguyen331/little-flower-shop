@@ -57,7 +57,7 @@ public class OccasionController {
 
         return new ResponseEntity<>(
             response,
-            HttpStatus.OK
+            HttpStatus.CREATED
         );
     }
 
