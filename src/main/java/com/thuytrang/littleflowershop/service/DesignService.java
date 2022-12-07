@@ -1,6 +1,5 @@
 package com.thuytrang.littleflowershop.service;
 
-import com.thuytrang.littleflowershop.model.Design;
 import com.thuytrang.littleflowershop.payload.request.DesignRequest;
 import com.thuytrang.littleflowershop.payload.response.APIResponse;
 import com.thuytrang.littleflowershop.payload.response.DesignResponse;

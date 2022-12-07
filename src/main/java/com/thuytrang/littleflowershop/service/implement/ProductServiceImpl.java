@@ -12,7 +12,6 @@ import com.thuytrang.littleflowershop.payload.response.ProductResponse;
 import com.thuytrang.littleflowershop.repository.DesignRepository;
 import com.thuytrang.littleflowershop.repository.FlowerRepository;
 import com.thuytrang.littleflowershop.repository.OccasionRepository;
-import com.thuytrang.littleflowershop.repository.PictureRepository;
 import com.thuytrang.littleflowershop.repository.ProductRepository;
 import com.thuytrang.littleflowershop.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;

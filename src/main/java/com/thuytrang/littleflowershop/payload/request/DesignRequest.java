@@ -1,6 +1,5 @@
 package com.thuytrang.littleflowershop.payload.request;
 
-import lombok.Builder;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
