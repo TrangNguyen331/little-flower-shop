@@ -8,7 +8,7 @@ import javax.validation.constraints.Size;
 
 @Data
 public class DesignRequest {
-    @NotBlank
-    @Size(min = 2, max = 50)
+    @NotBlank(message = "Design name required")
+    @Size(min = 2, max = 100)
     private String name;
 }

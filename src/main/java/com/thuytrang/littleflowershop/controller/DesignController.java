@@ -51,7 +51,6 @@ public class DesignController {
     public ResponseEntity<DesignResponse> createDesign(
         @RequestBody @Validated DesignRequest body
     ) {
-        System.out.println(body);
         DesignResponse response = designService.createDesign(body);
 
         return new ResponseEntity<>(
@@ -60,7 +59,7 @@ public class DesignController {
         );
     }
 
-    @PutMapping("{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<DesignResponse> updateDesign(
         @PathVariable(name = "id") Long id,
         @RequestBody @Validated DesignRequest body

@@ -39,15 +39,7 @@ public class DesignServiceImpl implements DesignService {
 
     @Override
     public DesignResponse detailDesign(Long id) {
-        Design design = designRepository
-            .findById(id)
-            .orElseThrow(() ->
-                ResourceNotFoundException.builder()
-                    .resourceName("Design")
-                    .fieldName("ID")
-                    .fieldValue(id)
-                    .build()
-            );
+        Design design = getDesignById(id);
 
         return DesignResponse.builder()
             .id(design.getId())
@@ -72,15 +64,7 @@ public class DesignServiceImpl implements DesignService {
 
     @Override
     public DesignResponse updateDesign(Long id, DesignRequest designRequest) {
-        Design existsDesign = designRepository
-            .findById(id)
-            .orElseThrow(() ->
-                ResourceNotFoundException.builder()
-                    .resourceName("Design")
-                    .fieldName("ID")
-                    .fieldValue(id)
-                    .build()
-            );
+        Design existsDesign = getDesignById(id);
 
         existsDesign.setName(designRequest.getName());
         Design updateDesign = designRepository.save(existsDesign);
@@ -94,15 +78,7 @@ public class DesignServiceImpl implements DesignService {
 
     @Override
     public APIResponse deleteDesign(Long id) {
-        Design existsDesign = designRepository
-            .findById(id)
-            .orElseThrow(() ->
-                ResourceNotFoundException.builder()
-                    .resourceName("Design")
-                    .fieldName("ID")
-                    .fieldValue(id)
-                    .build()
-            );
+        Design existsDesign = getDesignById(id);
 
         designRepository.delete(existsDesign);
 
@@ -111,5 +87,17 @@ public class DesignServiceImpl implements DesignService {
             .message("Design deleted success")
             .status(HttpStatus.OK)
             .build();
+    }
+
+    private Design getDesignById(Long id) {
+        return designRepository
+            .findById(id)
+            .orElseThrow(() ->
+                ResourceNotFoundException.builder()
+                    .resourceName("Design")
+                    .fieldName("ID")
+                    .fieldValue(id)
+                    .build()
+            );
     }
 }
