@@ -24,7 +24,7 @@ import java.io.Serializable;
 @Entity
 @Builder
 @AllArgsConstructor(access = AccessLevel.PACKAGE)
-@Getter @Setter(value = AccessLevel.PACKAGE)
+@Getter @Setter(value = AccessLevel.PUBLIC)
 @Table(
     name = "pictures",
     uniqueConstraints = {

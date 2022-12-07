@@ -1,9 +1,9 @@
 package com.thuytrang.littleflowershop.controller;
 
-import com.thuytrang.littleflowershop.payload.request.OccasionRequest;
+import com.thuytrang.littleflowershop.payload.request.PictureRequest;
 import com.thuytrang.littleflowershop.payload.response.APIResponse;
-import com.thuytrang.littleflowershop.payload.response.OccasionResponse;
-import com.thuytrang.littleflowershop.service.OccasionService;
+import com.thuytrang.littleflowershop.payload.response.PictureResponse;
+import com.thuytrang.littleflowershop.service.PictureService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,16 +20,16 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-@Tag(name = "Occasion CRUD Operation")
+@Tag(name = "Picture CRUD Operation")
 @RestController
-@RequestMapping("/api/occasions")
-public class OccasionController {
+@RequestMapping("/api/pictures")
+public class PictureController {
     @Autowired
-    private OccasionService occasionService;
+    private PictureService pictureService;
 
     @GetMapping
-    public ResponseEntity<List<OccasionResponse>> retrievalOccasions() {
-        List<OccasionResponse> response = occasionService.retrievalOccasions();
+    public ResponseEntity<List<PictureResponse>> retrievalPictures() {
+        List<PictureResponse> response = pictureService.retrievalPictures();
 
         return new ResponseEntity<>(
             response,
@@ -38,10 +38,10 @@ public class OccasionController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<OccasionResponse> detailOccasion(
+    public ResponseEntity<PictureResponse> detailPicture(
         @PathVariable(name = "id") Long id
     ) {
-        OccasionResponse response = occasionService.detailOccasion(id);
+        PictureResponse response = pictureService.detailPicture(id);
 
         return new ResponseEntity<>(
             response,
@@ -50,10 +50,10 @@ public class OccasionController {
     }
 
     @PostMapping
-    public ResponseEntity<OccasionResponse> createOccasion(
-        @RequestBody @Validated OccasionRequest body
+    public ResponseEntity<PictureResponse> createPicture(
+        @RequestBody @Validated PictureRequest body
     ) {
-        OccasionResponse response = occasionService.createOccasion(body);
+        PictureResponse response = pictureService.createPicture(body);
 
         return new ResponseEntity<>(
             response,
@@ -62,11 +62,11 @@ public class OccasionController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<OccasionResponse> updateOccasion(
+    public ResponseEntity<PictureResponse> updatePicture(
         @PathVariable(name = "id") Long id,
-        @RequestBody @Validated OccasionRequest body
+        @RequestBody @Validated PictureRequest body
     ) {
-        OccasionResponse response = occasionService.updateOccasion(id, body);
+        PictureResponse response = pictureService.updatePicture(id, body);
 
         return new ResponseEntity<>(
             response,
@@ -75,10 +75,10 @@ public class OccasionController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<APIResponse> deleteOccasion(
+    public ResponseEntity<APIResponse> deletePicture(
         @PathVariable(name = "id") Long id
     ) {
-        APIResponse response = occasionService.deleteOccasion(id);
+        APIResponse response = pictureService.deletePicture(id);
 
         return new ResponseEntity<>(
             response,
