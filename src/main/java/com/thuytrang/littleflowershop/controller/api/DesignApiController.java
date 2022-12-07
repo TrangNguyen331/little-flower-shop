@@ -1,19 +1,12 @@
-package com.thuytrang.littleflowershop.controller;
+package com.thuytrang.littleflowershop.controller.api;
 
+import com.thuytrang.littleflowershop.controller.DesignControler;
 import com.thuytrang.littleflowershop.payload.request.DesignRequest;
 import com.thuytrang.littleflowershop.payload.response.APIResponse;
 import com.thuytrang.littleflowershop.payload.response.DesignResponse;
-import com.thuytrang.littleflowershop.service.DesignService;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -23,11 +16,8 @@ import java.util.List;
 @Tag(name = "Design CRUD Operation")
 @RestController
 @RequestMapping("/api/designs")
-public class DesignController {
-    @Autowired
-    private DesignService designService;
-
-    @GetMapping
+public class DesignApiController extends DesignControler {
+    @Override
     public ResponseEntity<List<DesignResponse>> retrievalDesigns() {
         List<DesignResponse> response = designService.retrievalDesigns();
 
@@ -37,10 +27,8 @@ public class DesignController {
         );
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<DesignResponse> detailDesign(
-        @PathVariable(name = "id") Long id
-    ) {
+    @Override
+    public ResponseEntity<DesignResponse> detailDesign(Long id) {
         DesignResponse response = designService.detailDesign(id);
 
         return new ResponseEntity<>(
@@ -49,10 +37,10 @@ public class DesignController {
         );
     }
 
-    @PostMapping
+    @Override
     public ResponseEntity<DesignResponse> createDesign(
-        @RequestBody @Validated DesignRequest body
-    ) {
+        @RequestBody DesignRequest body)
+    {
         DesignResponse response = designService.createDesign(body);
 
         return new ResponseEntity<>(
@@ -61,10 +49,10 @@ public class DesignController {
         );
     }
 
-    @PutMapping("/{id}")
+    @Override
     public ResponseEntity<DesignResponse> updateDesign(
-        @PathVariable(name = "id") Long id,
-        @RequestBody @Validated DesignRequest body
+        Long id,
+        @RequestBody DesignRequest body
     ) {
         DesignResponse response = designService.updateDesign(id, body);
 
@@ -74,10 +62,8 @@ public class DesignController {
         );
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<APIResponse> deleteDesign(
-        @PathVariable(name = "id") Long id
-    ) {
+    @Override
+    public ResponseEntity<APIResponse> deleteDesign(Long id) {
         APIResponse response = designService.deleteDesign(id);
 
         return new ResponseEntity<>(
