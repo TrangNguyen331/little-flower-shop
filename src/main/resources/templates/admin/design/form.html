@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:insert="~{layouts/head :: head}"></head>
+<body>
+<div class="container-fluid">
+    <div class="row flex-nowrap">
+        <div th:replace="layouts/sidebar :: sidebar"></div>
+        <div class="col mx-5 my-5 bg-light shadow-lg">
+            Content Here
+        </div>
+    </div>
+</div>
+</body>
+</html>

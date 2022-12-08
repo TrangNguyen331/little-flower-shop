@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <link type="text/css" rel="stylesheet" th:rel="stylesheet" th:href="@{/libs/bootstrap/bootstrap.min.css}">
-    <link type="text/css" rel="stylesheet" th:rel="stylesheet" th:href="@{/libs/fontawesome/fontawesome.min.css}">
-    <title>Little Flower Shop</title>
-</head>
+<head th:insert="~{layouts/head :: head}"></head>
 <body>
-    <div class="container">
-        <h1>Hello Spring</h1>
+    <div class="container-fluid">
+        <div class="row flex-nowrap">
+            <div th:replace="layouts/sidebar :: sidebar"></div>
+            <div class="col mx-5 my-5 bg-light shadow-lg">
+                Content Here
+            </div>
+        </div>
     </div>
 </body>
 </html>

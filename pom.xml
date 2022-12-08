@@ -99,9 +99,6 @@
 			<artifactId>springdoc-openapi-ui</artifactId>
 			<version>1.6.12</version>
 		</dependency>
-
-		<!-- Webjars Dependency -->
-
 	</dependencies>
 
 	<build>

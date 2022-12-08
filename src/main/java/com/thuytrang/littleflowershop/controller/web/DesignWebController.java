@@ -16,7 +16,7 @@ import java.util.List;
 public class DesignWebController extends DesignControler {
     @Override
     public ModelAndView retrievalDesigns() {
-        ModelAndView response = new ModelAndView("/design/list");
+        ModelAndView response = new ModelAndView("/admin/design/list");
         List<DesignResponse> designs = designService.retrievalDesigns();
         response.addObject("designs", designs);
 
