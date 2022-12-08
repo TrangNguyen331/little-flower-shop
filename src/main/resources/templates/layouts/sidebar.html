@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<body>
+    <div th:fragment="sidebar" class="col-auto col-md-2 col-xl-2 px-sm-2 px-0 shadow-lg" style="background-color: #4B70DC">
+        <div class="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 min-vh-100">
+            <a href="/" class="d-flex align-items-center pb-4 mb-md-0 me-md-auto w-100 text-white text-center text-decoration-none border-bottom">
+                <span class="fs-5 d-none d-sm-inline w-100">Little Flower Shop</span>
+            </a>
+            <ul class="nav nav-pills flex-column mb-sm-auto mb-0 w-100 my-3 align-items-center align-items-sm-start" id="menu">
+                <li class="dropdown mt-2">
+                    <button href="#" class="btn btn-toggle align-items-center rounded text-white dropdown-toggle text-truncate" data-bs-toggle="dropdown">
+                        <span class="ms-2 d-none d-sm-inline fw-semibold">Product</span>
+                    </button>
+                    <ul class="dropdown-menu shadow mt-1">
+                        <li><a href="#" class="dropdown-item"><i class="fa fa-plus"></i><span class="ms-2 d-none d-sm-inline small">Create new...</span></a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a href="#" class="dropdown-item"><i class="fa fa-list"></i><span class="ms-2 d-none d-sm-inline small">Manager</span></a></li>
+                    </ul>
+                </li>
+                <li class="dropdown mt-2">
+                    <button href="#" class="btn btn-toggle align-items-center rounded text-white dropdown-toggle text-truncate" data-bs-toggle="dropdown">
+                        </i><span class="ms-2 d-none d-sm-inline fw-semibold">Design Style</span>
+                    </button>
+                    <ul class="dropdown-menu shadow mt-1">
+                        <li><a href="#" class="dropdown-item"><i class="fa fa-plus"></i><span class="ms-2 d-none d-sm-inline small">Create new...</span></a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a href="#" class="dropdown-item"><i class="fa fa-list"></i><span class="ms-2 d-none d-sm-inline small">Manager</span></a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>
