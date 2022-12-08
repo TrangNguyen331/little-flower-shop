@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:insert="~{layouts/head :: head}"></head>
+<body>
+<div class="container-fluid">
+    <div class="row flex-nowrap">
+        <div th:replace="layouts/sidebar :: sidebar"></div>
+        <div class="col mx-5 my-5 bg-light shadow-lg">
+            <h2 th:text="${action} == 'create' ? 'Create New Occasion' : 'Edit Occasion'"></h2>
+            <div class="card">
+                <div class="card-body">
+                    <form role="form"
+                          th:action="${action} == 'create' ? @{/occasions/create} : @{/occasions/update/{id}(id = ${occasion.getId()})}"
+                          th:method="post"
+                          th:object="${occasion}"
+                    >
+                        <div class="form-group">
+                            <label for="name">Name</label>
+                            <input type="text" id="name" th:value="*{name}" name="name" class="form-control">
+                        </div>
+                        <input type="submit" class="btn btn-primary" th:value="${action} == 'create' ? 'Add' : 'Save'">
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

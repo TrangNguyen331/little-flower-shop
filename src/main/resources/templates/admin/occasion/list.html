@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:insert="~{layouts/head :: head}"></head>
+<body>
+<div class="container-fluid">
+    <div class="row flex-nowrap">
+        <div th:replace="layouts/sidebar :: sidebar"></div>
+        <div class="col mx-5 my-5 shadow-lg rounded-lg text-white px-5 py-4" style="background-color: #292F45">
+            <h2 class="pb-3">Occasions Management</h2>
+            <div class="card">
+                <div class="card-body">
+                    <table class="table table-dark table-striped table-hover table-responsive-md">
+                        <thead class="table-light">
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="occasion: ${occasions}">
+                            <td valign="middle" th:text="${occasion.getId()}"></td>
+                            <td valign="middle" th:text="${occasion.getName()}"></td>
+                            <td align="right">
+                                <a href="#" th:href="@{/occasions/edit/{id}(id = ${occasion.getId()})}" class="btn btn-sm px-3 py-2 text-white" style="background-color: #7466F1">
+                                    <i class="fa fa-edit"></i>
+                                </a>
+                                <a href="#" th:href="@{/occasions/delete/{id}(id = ${occasion.getId()})}" class="btn btn-sm px-3 py-2 text-white" style="background-color: #7466F1">
+                                    <i class="fa fa-trash"></i>
+                                </a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

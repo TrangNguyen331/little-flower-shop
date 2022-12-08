@@ -61,7 +61,7 @@ public class DesignWebController {
         return new RedirectView("/designs/list");
     }
 
-    @PostMapping("update/{id}")
+    @PostMapping("/update/{id}")
     public RedirectView updateDesign(
         @PathVariable(name = "id") Long id,
         @ModelAttribute DesignRequest body
@@ -71,7 +71,7 @@ public class DesignWebController {
         return new RedirectView("/designs/list");
     }
 
-    @GetMapping("delete/{id}")
+    @GetMapping("/delete/{id}")
     public RedirectView deleteDesign(
         @PathVariable(name = "id") Long id
     ) {
