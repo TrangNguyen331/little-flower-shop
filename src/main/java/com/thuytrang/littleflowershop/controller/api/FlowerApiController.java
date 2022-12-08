@@ -1,12 +1,18 @@
 package com.thuytrang.littleflowershop.controller.api;
 
-import com.thuytrang.littleflowershop.controller.FlowerController;
 import com.thuytrang.littleflowershop.payload.request.FlowerRequest;
 import com.thuytrang.littleflowershop.payload.response.APIResponse;
 import com.thuytrang.littleflowershop.payload.response.FlowerResponse;
+import com.thuytrang.littleflowershop.service.FlowerService;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -16,8 +22,11 @@ import java.util.List;
 @Tag(name = "Flower CRUD Operation")
 @RestController
 @RequestMapping("/api/flowers")
-public class FlowerApiController extends FlowerController {
-    @Override
+public class FlowerApiController {
+    @Autowired
+    private FlowerService flowerService;
+
+    @GetMapping
     public ResponseEntity<List<FlowerResponse>> retrievalFlowers() {
         List<FlowerResponse> response = flowerService.retrievalFlowers();
 
@@ -27,8 +36,10 @@ public class FlowerApiController extends FlowerController {
         );
     }
 
-    @Override
-    public ResponseEntity<FlowerResponse> detailFlower(Long id) {
+    @GetMapping("/{id}")
+    public ResponseEntity<FlowerResponse> detailFlower(
+        @PathVariable(name = "id") Long id
+    ) {
         FlowerResponse response = flowerService.detailFlower(id);
 
         return new ResponseEntity<>(
@@ -37,7 +48,7 @@ public class FlowerApiController extends FlowerController {
         );
     }
 
-    @Override
+    @PostMapping
     public ResponseEntity<FlowerResponse> createFlower(
         @RequestBody FlowerRequest body
     ) {
@@ -49,9 +60,9 @@ public class FlowerApiController extends FlowerController {
         );
     }
 
-    @Override
+    @PutMapping("/{id}")
     public ResponseEntity<FlowerResponse> updateFlower(
-        Long id,
+        @PathVariable(name = "id") Long id,
         @RequestBody FlowerRequest body
     ) {
         FlowerResponse response = flowerService.updateFlower(id, body);
@@ -62,8 +73,10 @@ public class FlowerApiController extends FlowerController {
         );
     }
 
-    @Override
-    public ResponseEntity<APIResponse> deleteFlower(Long id) {
+    @DeleteMapping("/{id}")
+    public ResponseEntity<APIResponse> deleteFlower(
+        @PathVariable(name = "id") Long id
+    ) {
         APIResponse response = flowerService.deleteFlower(id);
 
         return new ResponseEntity<>(

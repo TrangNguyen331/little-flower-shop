@@ -1,12 +1,18 @@
 package com.thuytrang.littleflowershop.controller.api;
 
-import com.thuytrang.littleflowershop.controller.ProductController;
 import com.thuytrang.littleflowershop.payload.request.ProductRequest;
 import com.thuytrang.littleflowershop.payload.response.APIResponse;
 import com.thuytrang.littleflowershop.payload.response.ProductResponse;
+import com.thuytrang.littleflowershop.service.ProductService;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -16,8 +22,11 @@ import java.util.List;
 @Tag(name = "Product CRUD Operation")
 @RestController
 @RequestMapping("/api/products")
-public class ProductApiController extends ProductController {
-    @Override
+public class ProductApiController {
+    @Autowired
+    private ProductService productService;
+
+    @GetMapping
     public ResponseEntity<List<ProductResponse>> retrievalProducts() {
         List<ProductResponse> response = productService.retrievalProducts();
 
@@ -27,8 +36,10 @@ public class ProductApiController extends ProductController {
         );
     }
 
-    @Override
-    public ResponseEntity<ProductResponse> detailProduct(Long id) {
+    @GetMapping("/{id}")
+    public ResponseEntity<ProductResponse> detailProduct(
+        @PathVariable(name = "id") Long id
+    ) {
         ProductResponse response = productService.detailProduct(id);
 
         return new ResponseEntity<>(
@@ -37,7 +48,7 @@ public class ProductApiController extends ProductController {
         );
     }
 
-    @Override
+    @PostMapping
     public ResponseEntity<ProductResponse> createProduct(
         @RequestBody ProductRequest body
     ) {
@@ -49,9 +60,9 @@ public class ProductApiController extends ProductController {
         );
     }
 
-    @Override
+    @PutMapping("/{id}")
     public ResponseEntity<ProductResponse> updateProduct(
-        Long id,
+        @PathVariable(name = "id") Long id,
         @RequestBody ProductRequest body
     ) {
         ProductResponse response = productService.updateProduct(id, body);
@@ -62,8 +73,10 @@ public class ProductApiController extends ProductController {
         );
     }
 
-    @Override
-    public ResponseEntity<APIResponse> deleteProduct(Long id) {
+    @DeleteMapping("/{id}")
+    public ResponseEntity<APIResponse> deleteProduct(
+        @PathVariable(name = "id") Long id
+    ) {
         APIResponse response = productService.deleteProduct(id);
 
         return new ResponseEntity<>(

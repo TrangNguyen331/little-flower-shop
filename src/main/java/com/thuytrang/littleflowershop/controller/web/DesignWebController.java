@@ -1,12 +1,15 @@
 package com.thuytrang.littleflowershop.controller.web;
 
-import com.thuytrang.littleflowershop.controller.DesignControler;
 import com.thuytrang.littleflowershop.payload.request.DesignRequest;
 import com.thuytrang.littleflowershop.payload.response.DesignResponse;
+import com.thuytrang.littleflowershop.service.DesignService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
@@ -15,7 +18,10 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/designs")
-public class DesignWebController extends DesignControler {
+public class DesignWebController {
+    @Autowired
+    private DesignService designService;
+
     @GetMapping("/create")
     public ModelAndView showFormCreate() {
         ModelAndView response = new ModelAndView("/admin/design/form");
@@ -23,7 +29,7 @@ public class DesignWebController extends DesignControler {
         return response;
     }
 
-    @Override
+    @GetMapping
     public ModelAndView retrievalDesigns() {
         ModelAndView response = new ModelAndView("/admin/design/list");
         List<DesignResponse> designs = designService.retrievalDesigns();
@@ -32,7 +38,6 @@ public class DesignWebController extends DesignControler {
         return response;
     }
 
-    @Override
     @GetMapping("/{id}")
     public ModelAndView detailDesign(
         @PathVariable(name = "id") Long id
@@ -44,7 +49,7 @@ public class DesignWebController extends DesignControler {
         return response;
     }
 
-    @Override
+    @PostMapping
     public RedirectView createDesign(
         @ModelAttribute DesignRequest body
     ) {
@@ -53,15 +58,14 @@ public class DesignWebController extends DesignControler {
         return new RedirectView("/designs");
     }
 
-    @Override
+    @PutMapping("/{id}")
     public RedirectView updateDesign(
-        Long id,
+        @PathVariable(name = "id") Long id,
         @ModelAttribute DesignRequest body
     ) {
         return new RedirectView("");
     }
 
-    @Override
     @GetMapping("delete/{id}")
     public RedirectView deleteDesign(
         @PathVariable(name = "id") Long id
