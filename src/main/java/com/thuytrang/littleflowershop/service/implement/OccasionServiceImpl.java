@@ -25,11 +25,7 @@ public class OccasionServiceImpl implements OccasionService {
         List<OccasionResponse> occasionResponses = new ArrayList<>();
         for (Occasion occasion: occasions) {
             occasionResponses.add(
-                OccasionResponse.builder()
-                    .id(occasion.getId())
-                    .name(occasion.getName())
-                    .products(occasion.getProducts())
-                    .build()
+                this.responseBuilder(occasion)
             );
         }
 
@@ -40,39 +36,31 @@ public class OccasionServiceImpl implements OccasionService {
     public OccasionResponse detailOccasion(Long id) {
         Occasion occasion = getOccasionById(id);
 
-        return OccasionResponse.builder()
-            .id(occasion.getId())
-            .name(occasion.getName())
-            .products(occasion.getProducts())
-            .build();
+        return this.responseBuilder(occasion);
     }
 
     @Override
     public OccasionResponse createOccasion(OccasionRequest occasionRequest) {
         Occasion occasion = Occasion.builder()
-            .name(occasionRequest.getName())
+            .title(occasionRequest.getTitle())
+            .description(occasionRequest.getDescription())
             .build();
 
         Occasion newOccasion = occasionRepository.save(occasion);
 
-        return OccasionResponse.builder()
-            .id(newOccasion.getId())
-            .name(newOccasion.getName())
-            .build();
+        return responseBuilder(newOccasion);
     }
 
     @Override
     public OccasionResponse updateOccasion(Long id, OccasionRequest occasionRequest) {
         Occasion existsOccasion = getOccasionById(id);
 
-        existsOccasion.setName(occasionRequest.getName());
+        existsOccasion.setTitle(occasionRequest.getTitle());
+        existsOccasion.setDescription(occasionRequest.getDescription());
+
         Occasion updateOccasion = occasionRepository.save(existsOccasion);
 
-        return OccasionResponse.builder()
-            .id(updateOccasion.getId())
-            .name(updateOccasion.getName())
-            .products(updateOccasion.getProducts())
-            .build();
+        return responseBuilder(updateOccasion);
     }
 
     @Override
@@ -97,5 +85,15 @@ public class OccasionServiceImpl implements OccasionService {
                     .fieldValue(id)
                     .build()
             );
+    }
+
+    private OccasionResponse responseBuilder(Occasion occasion) {
+        return OccasionResponse.builder()
+            .id(occasion.getId())
+            .title(occasion.getTitle())
+            .description(occasion.getDescription())
+            .createAt(occasion.getCreateAt())
+            .products(occasion.getProducts())
+            .build();
     }
 }

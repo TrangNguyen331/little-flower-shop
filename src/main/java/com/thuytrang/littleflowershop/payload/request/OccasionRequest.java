@@ -9,5 +9,8 @@ import javax.validation.constraints.Size;
 public class OccasionRequest {
     @NotBlank(message = "Occasion name required")
     @Size(min = 2, max = 100)
-    private String name;
+    private String title;
+
+    @Size(max = 200)
+    private String description;
 }

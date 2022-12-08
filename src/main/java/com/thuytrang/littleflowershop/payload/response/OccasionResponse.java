@@ -5,6 +5,9 @@ import com.thuytrang.littleflowershop.model.Product;
 import lombok.Builder;
 import lombok.Data;
 
+import java.time.Instant;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Data
@@ -12,6 +15,16 @@ import java.util.List;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class OccasionResponse {
     private Long id;
-    private String name;
+    private String title;
+    private String description;
+    private Instant createAt;
     private List<Product> products;
+
+    public String getCreateAt() {
+        DateTimeFormatter formatter = DateTimeFormatter
+            .ofPattern("dd/MM/yyyy")
+            .withZone(ZoneId.systemDefault());
+
+        return formatter.format(this.createAt);
+    }
 }
