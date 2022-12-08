@@ -22,14 +22,16 @@ public class DesignWebController {
     @Autowired
     private DesignService designService;
 
-    @GetMapping("/create")
+    @GetMapping("/form")
     public ModelAndView showFormCreate() {
         ModelAndView response = new ModelAndView("/admin/design/form");
         response.addObject("design", new DesignRequest());
+        response.addObject("action", "create");
+
         return response;
     }
 
-    @GetMapping
+    @GetMapping("/list")
     public ModelAndView retrievalDesigns() {
         ModelAndView response = new ModelAndView("/admin/design/list");
         List<DesignResponse> designs = designService.retrievalDesigns();
@@ -38,32 +40,35 @@ public class DesignWebController {
         return response;
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/edit/{id}")
     public ModelAndView detailDesign(
         @PathVariable(name = "id") Long id
     ) {
         ModelAndView response = new ModelAndView("/admin/design/form");
         DesignResponse design = designService.detailDesign(id);
         response.addObject("design", design);
+        response.addObject("action", "edit");
 
         return response;
     }
 
-    @PostMapping
+    @PostMapping("/create")
     public RedirectView createDesign(
         @ModelAttribute DesignRequest body
     ) {
         designService.createDesign(body);
 
-        return new RedirectView("/designs");
+        return new RedirectView("/designs/list");
     }
 
-    @PutMapping("/{id}")
+    @PostMapping("update/{id}")
     public RedirectView updateDesign(
         @PathVariable(name = "id") Long id,
         @ModelAttribute DesignRequest body
     ) {
-        return new RedirectView("");
+        designService.updateDesign(id, body);
+
+        return new RedirectView("/designs/list");
     }
 
     @GetMapping("delete/{id}")
@@ -72,6 +77,6 @@ public class DesignWebController {
     ) {
         designService.deleteDesign(id);
 
-        return new RedirectView("/designs");
+        return new RedirectView("/designs/list");
     }
 }

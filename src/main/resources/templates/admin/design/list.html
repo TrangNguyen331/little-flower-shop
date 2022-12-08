@@ -6,29 +6,34 @@
     <div class="row flex-nowrap">
         <div th:replace="layouts/sidebar :: sidebar"></div>
         <div class="col mx-5 my-5 bg-light shadow-lg">
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Name</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr th:each="design: ${designs}">
-                        <td th:text="${design.getId()}"></td>
-                        <td th:text="${design.getName()}"></td>
-                        <td>
-                            <a href="#" th:href="@{/designs/{id}(id = ${design.getId()})}" class="btn btn-outline-success btn-sm">
-                                <i class="fa fa-edit"></i> Edit
-                            </a>
-                            <a href="#" th:href="@{/designs/delete/{id}(id = ${design.getId()})}" class="btn btn-outline-danger btn-sm">
-                                <i class="fa fa-trash"></i> Delete
-                            </a>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+            <h2>Design Style Manager</h2>
+            <div class="card">
+                <div class="card-body">
+                    <table class="table">
+                        <thead class="table-light">
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Action</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="design: ${designs}">
+                            <td th:text="${design.getId()}"></td>
+                            <td th:text="${design.getName()}"></td>
+                            <td>
+                                <a href="#" th:href="@{/designs/edit/{id}(id = ${design.getId()})}" class="btn btn-primary btn-sm px-3 py-2">
+                                    <i class="fa fa-edit"></i> Edit
+                                </a>
+                                <a href="#" th:href="@{/designs/delete/{id}(id = ${design.getId()})}" class="btn btn-primary btn-sm px-3 py-2">
+                                    <i class="fa fa-trash"></i> Delete
+                                </a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
     </div>
 </div>
