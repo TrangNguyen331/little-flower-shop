@@ -6,7 +6,13 @@
     <div class="row flex-nowrap">
         <div th:replace="layouts/sidebar :: sidebar"></div>
         <div class="col mx-5 my-5 bg-light shadow-lg">
-            Content Here
+            <form role="form" th:action="@{/designs}" th:method="post" th:object="${design}">
+                <div class="form-group">
+                    <label for="name">Name</label>
+                    <input type="text" id="name" th:value="*{name}" name="name" class="form-control">
+                </div>
+                <input type="submit" class="btn btn-success" value="Create">
+            </form>
         </div>
     </div>
 </div>

@@ -4,7 +4,9 @@ import com.thuytrang.littleflowershop.controller.DesignControler;
 import com.thuytrang.littleflowershop.payload.request.DesignRequest;
 import com.thuytrang.littleflowershop.payload.response.DesignResponse;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
@@ -14,6 +16,13 @@ import java.util.List;
 @Controller
 @RequestMapping("/designs")
 public class DesignWebController extends DesignControler {
+    @GetMapping("/create")
+    public ModelAndView showFormCreate() {
+        ModelAndView response = new ModelAndView("/admin/design/form");
+        response.addObject("design", new DesignRequest());
+        return response;
+    }
+
     @Override
     public ModelAndView retrievalDesigns() {
         ModelAndView response = new ModelAndView("/admin/design/list");
@@ -24,26 +33,41 @@ public class DesignWebController extends DesignControler {
     }
 
     @Override
-    public ModelAndView detailDesign(Long id) {
-        return null;
+    @GetMapping("/{id}")
+    public ModelAndView detailDesign(
+        @PathVariable(name = "id") Long id
+    ) {
+        ModelAndView response = new ModelAndView("/admin/design/form");
+        DesignResponse design = designService.detailDesign(id);
+        response.addObject("design", design);
+
+        return response;
     }
 
     @Override
     public RedirectView createDesign(
         @ModelAttribute DesignRequest body
     ) {
-        return null;
+        designService.createDesign(body);
+
+        return new RedirectView("/designs");
     }
 
     @Override
     public RedirectView updateDesign(
         Long id,
-        @ModelAttribute DesignRequest body) {
-        return null;
+        @ModelAttribute DesignRequest body
+    ) {
+        return new RedirectView("");
     }
 
     @Override
-    public RedirectView deleteDesign(Long id) {
-        return null;
+    @GetMapping("delete/{id}")
+    public RedirectView deleteDesign(
+        @PathVariable(name = "id") Long id
+    ) {
+        designService.deleteDesign(id);
+
+        return new RedirectView("/designs");
     }
 }
