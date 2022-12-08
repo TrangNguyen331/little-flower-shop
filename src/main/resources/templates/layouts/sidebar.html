@@ -1,41 +1,29 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <body>
-    <div th:fragment="sidebar" class="col-auto col-md-2 col-xl-2 px-sm-2 px-0 shadow-lg" style="background-color: #292F45">
+    <div th:fragment="sidebar" class="col-auto col-md-2 col-xl-2 px-sm-2 px-0 shadow-lg" style="background-color: #FBF6F6">
         <div class="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 min-vh-100">
-            <a href="/" class="d-flex align-items-center pb-4 mb-md-0 me-md-auto w-100 text-white text-center text-decoration-none border-bottom">
-                <span class="fs-5 d-none d-sm-inline w-100">Little Flower Shop</span>
+            <a href="/" class="flex items-center pl-2.5 mb-5">
+                <span class="self-center text-xl font-semibold whitespace-nowrap dark:text-white">Little Flower</span>
             </a>
-            <ul class="nav nav-pills flex-column mb-sm-auto mb-0 w-100 my-3 align-items-center align-items-sm-start" id="menu">
-                <li class="dropdown mt-2">
-                    <button href="#" class="btn btn-toggle align-items-center rounded text-white dropdown-toggle text-truncate" data-bs-toggle="dropdown">
-                        <span class="ms-2 d-none d-sm-inline fw-semibold">Product</span>
-                    </button>
-                    <ul class="dropdown-menu shadow mt-1">
-                        <li><a href="#" class="dropdown-item"><i class="fa fa-plus"></i><span class="ms-2 d-none d-sm-inline small">Create new</span></a></li>
-                        <li><hr class="dropdown-divider"></li>
-                        <li><a href="#" class="dropdown-item"><i class="fa fa-list"></i><span class="ms-2 d-none d-sm-inline small">Manager</span></a></li>
-                    </ul>
+            <ul class="space-y-2">
+                <li>
+                    <a href="#" class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
+                        <svg aria-hidden="true" class="w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M2 10a8 8 0 018-8v8h8a8 8 0 11-16 0z"></path><path d="M12 2.252A8.014 8.014 0 0117.748 8H12V2.252z"></path></svg>
+                        <span class="ml-3">Dashboard</span>
+                    </a>
                 </li>
-                <li class="dropdown mt-2">
-                    <button href="#" class="btn btn-toggle align-items-center rounded text-white dropdown-toggle text-truncate" data-bs-toggle="dropdown">
-                        </i><span class="ms-2 d-none d-sm-inline fw-semibold">Design Style</span>
-                    </button>
-                    <ul class="dropdown-menu shadow mt-1">
-                        <li><a href="#" th:href="@{/designs/form}" class="dropdown-item"><i class="fa fa-plus"></i><span class="ms-2 d-none d-sm-inline small">Create new</span></a></li>
-                        <li><hr class="dropdown-divider"></li>
-                        <li><a href="#" th:href="@{/designs/list}" class="dropdown-item"><i class="fa fa-list"></i><span class="ms-2 d-none d-sm-inline small">Manager</span></a></li>
-                    </ul>
+                <li>
+                    <a href="#" th:href="@{/products/list}" class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
+                        <svg aria-hidden="true" class="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 2a4 4 0 00-4 4v1H5a1 1 0 00-.994.89l-1 9A1 1 0 004 18h12a1 1 0 00.994-1.11l-1-9A1 1 0 0015 7h-1V6a4 4 0 00-4-4zm2 5V6a2 2 0 10-4 0v1h4zm-6 3a1 1 0 112 0 1 1 0 01-2 0zm7-1a1 1 0 100 2 1 1 0 000-2z" clip-rule="evenodd"></path></svg>
+                        <span class="flex-1 ml-3 whitespace-nowrap">Products</span>
+                    </a>
                 </li>
-                <li class="dropdown mt-2">
-                    <button href="#" class="btn btn-toggle align-items-center rounded text-white dropdown-toggle text-truncate" data-bs-toggle="dropdown">
-                        </i><span class="ms-2 d-none d-sm-inline fw-semibold">Occasion</span>
-                    </button>
-                    <ul class="dropdown-menu shadow mt-1">
-                        <li><a href="#" th:href="@{/occasions/form}" class="dropdown-item"><i class="fa fa-plus"></i><span class="ms-2 d-none d-sm-inline small">Create new</span></a></li>
-                        <li><hr class="dropdown-divider"></li>
-                        <li><a href="#" th:href="@{/occasions/list}" class="dropdown-item"><i class="fa fa-list"></i><span class="ms-2 d-none d-sm-inline small">Manager</span></a></li>
-                    </ul>
+                <li>
+                    <a href="#" th:href="@{/occasions/list}" class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
+                        <svg aria-hidden="true" class="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 2a4 4 0 00-4 4v1H5a1 1 0 00-.994.89l-1 9A1 1 0 004 18h12a1 1 0 00.994-1.11l-1-9A1 1 0 0015 7h-1V6a4 4 0 00-4-4zm2 5V6a2 2 0 10-4 0v1h4zm-6 3a1 1 0 112 0 1 1 0 01-2 0zm7-1a1 1 0 100 2 1 1 0 000-2z" clip-rule="evenodd"></path></svg>
+                        <span class="flex-1 ml-3 whitespace-nowrap">Occasions</span>
+                    </a>
                 </li>
             </ul>
         </div>
