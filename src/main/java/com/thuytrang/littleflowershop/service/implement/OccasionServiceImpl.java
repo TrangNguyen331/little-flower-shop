@@ -11,7 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class OccasionServiceImpl implements OccasionService {
@@ -21,6 +23,29 @@ public class OccasionServiceImpl implements OccasionService {
     @Override
     public List<OccasionResponse> retrievalOccasions() {
         List<Occasion> occasions = occasionRepository.findAll();
+
+        List<OccasionResponse> occasionResponses = new ArrayList<>();
+        for (Occasion occasion: occasions) {
+            occasionResponses.add(
+                this.responseBuilder(occasion)
+            );
+        }
+
+        return occasionResponses;
+    }
+
+    @Override
+    public List<OccasionResponse> filterOccasions(String by, String keyword) {
+        List<Occasion> occasions = new ArrayList<>();
+
+        if (Objects.equals(by, "id")) {
+            try {
+                occasions = occasionRepository.findById((long) Integer.parseInt(keyword)).stream().toList();
+            }
+            catch (NumberFormatException e) { return null; };
+        } else {
+            occasions = occasionRepository.filterByTitle(keyword);
+        }
 
         List<OccasionResponse> occasionResponses = new ArrayList<>();
         for (Occasion occasion: occasions) {

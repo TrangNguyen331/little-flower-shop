@@ -8,6 +8,7 @@ import java.util.List;
 
 public interface OccasionService {
     List<OccasionResponse> retrievalOccasions();
+    List<OccasionResponse> filterOccasions(String by, String keyword);
     OccasionResponse detailOccasion(Long id);
     OccasionResponse createOccasion(OccasionRequest occasionRequest);
     OccasionResponse updateOccasion(Long id, OccasionRequest occasionRequest);

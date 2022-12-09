@@ -9,7 +9,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
@@ -28,6 +30,18 @@ public class OccasionWebController {
         response.addObject("action", "create");
 
         return response;
+    }
+
+    @GetMapping("/filter")
+    public ModelAndView filterOccasions(
+        @RequestParam(name = "by") String by,
+        @RequestParam(name = "keyword") String keyword
+    ) {
+        ModelAndView response = new ModelAndView("/admin/occasion/list");
+        List<OccasionResponse> occasions = occasionService.filterOccasions(by, keyword);
+        response.addObject("occasions", occasions);
+
+        return  response;
     }
 
     @GetMapping("/list")
