@@ -8,7 +8,6 @@ import com.thuytrang.littleflowershop.payload.response.DesignResponse;
 import com.thuytrang.littleflowershop.repository.DesignRepository;
 import com.thuytrang.littleflowershop.service.DesignService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -41,7 +40,9 @@ public class DesignServiceImpl implements DesignService {
         if (Objects.equals(by, "id")) {
             try {
                 designs = designRepository.findById((long) Integer.parseInt(keyword)).stream().toList();
-            } catch (NumberFormatException e) { return null; }
+            } catch (NumberFormatException e) {
+                return null;
+            }
         } else {
             designs = designRepository.filterByTitle(keyword);
         }
@@ -96,7 +97,6 @@ public class DesignServiceImpl implements DesignService {
         return APIResponse.builder()
             .success(Boolean.TRUE)
             .message("Design deleted success")
-            .status(HttpStatus.OK)
             .build();
     }
 

@@ -26,7 +26,7 @@ public class ResourceNotFoundException extends RuntimeException {
 
     public void setApiResponse( ) {
         String message = MessageFormat.format(
-            "{0} not found with {1}: {2}", this.resourceName, this.fieldValue, this.fieldName);
+            "{0} not found with {1}: {2}", this.resourceName, this.fieldName, this.fieldValue);
         this.apiResponse = APIResponse.builder()
             .success(Boolean.FALSE)
             .message(message)

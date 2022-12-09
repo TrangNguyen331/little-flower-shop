@@ -25,12 +25,34 @@ public class FlowerServiceImpl implements FlowerService {
         List<FlowerResponse> flowerResponses = new ArrayList<>();
         for (Flower flower: flowers) {
             flowerResponses.add(
-                FlowerResponse.builder()
-                    .id(flower.getId())
-                    .kind(flower.getKind())
-                    .color(flower.getColor())
-                    .products(flower.getProducts())
-                    .build()
+                this.responseBuilder(flower)
+            );
+        }
+
+        return flowerResponses;
+    }
+
+    @Override
+    public List<FlowerResponse> filterFlowers(String by, String keyword) {
+        List<Flower> flowers;
+
+        switch (by) {
+            case "id" -> {
+                try {
+                    flowers = flowerRepository.findById((long) Integer.parseInt(keyword)).stream().toList();
+                } catch (NumberFormatException e) {
+                    return null;
+                }
+            }
+            case "kind" -> flowers = flowerRepository.filterByKind(keyword);
+            case "color" -> flowers = flowerRepository.filterByColor(keyword);
+            default -> flowers = new ArrayList<>();
+        }
+
+        List<FlowerResponse> flowerResponses = new ArrayList<>();
+        for (Flower flower: flowers) {
+            flowerResponses.add(
+                this.responseBuilder(flower)
             );
         }
 
@@ -41,12 +63,7 @@ public class FlowerServiceImpl implements FlowerService {
     public FlowerResponse detailFlower(Long id) {
         Flower flower = getFlowerById(id);
 
-        return FlowerResponse.builder()
-            .id(flower.getId())
-            .kind(flower .getKind())
-            .color(flower.getColor())
-            .products(flower.getProducts())
-            .build();
+        return this.responseBuilder(flower);
     }
 
     @Override
@@ -54,15 +71,12 @@ public class FlowerServiceImpl implements FlowerService {
         Flower flower = Flower.builder()
             .kind(flowerRequest.getKind())
             .color(flowerRequest.getColor())
+            .description(flowerRequest.getDescription())
             .build();
 
         Flower newFlower = flowerRepository.save(flower);
 
-        return FlowerResponse.builder()
-            .id(newFlower.getId())
-            .kind(newFlower.getKind())
-            .color(newFlower.getColor())
-            .build();
+        return this.responseBuilder(newFlower);
     }
 
     @Override
@@ -71,13 +85,11 @@ public class FlowerServiceImpl implements FlowerService {
 
         existsFlower.setKind(flowerRequest.getKind());
         existsFlower.setColor(flowerRequest.getColor());
+        existsFlower.setDescription(flowerRequest.getDescription());
+
         Flower updateFlower = flowerRepository.save(existsFlower);
 
-        return FlowerResponse.builder()
-            .id(updateFlower.getId())
-            .kind(updateFlower.getKind())
-            .color(updateFlower.getColor())
-            .build();
+        return responseBuilder(updateFlower);
     }
 
     @Override
@@ -102,5 +114,15 @@ public class FlowerServiceImpl implements FlowerService {
                     .fieldValue(id)
                     .build()
             );
+    }
+
+    private FlowerResponse responseBuilder(Flower flower) {
+        return FlowerResponse.builder()
+            .id(flower.getId())
+            .kind(flower.getKind())
+            .color(flower.getColor())
+            .description(flower.getDescription())
+            .createAt(flower.getCreateAt())
+            .build();
     }
 }

@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
@@ -41,7 +40,9 @@ public class OccasionServiceImpl implements OccasionService {
         if (Objects.equals(by, "id")) {
             try {
                 occasions = occasionRepository.findById((long) Integer.parseInt(keyword)).stream().toList();
-            } catch (NumberFormatException e) { return null; };
+            } catch (NumberFormatException e) {
+                return null;
+            }
         } else {
             occasions = occasionRepository.filterByTitle(keyword);
         }

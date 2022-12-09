@@ -8,6 +8,7 @@ import java.util.List;
 
 public interface FlowerService {
     List<FlowerResponse> retrievalFlowers();
+    List<FlowerResponse> filterFlowers(String by, String keyword);
     FlowerResponse detailFlower(Long id);
     FlowerResponse createFlower(FlowerRequest flowerRequest);
     FlowerResponse updateFlower(Long id, FlowerRequest flowerRequest);

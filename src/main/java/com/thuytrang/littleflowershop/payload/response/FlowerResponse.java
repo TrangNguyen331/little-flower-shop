@@ -6,6 +6,9 @@ import com.thuytrang.littleflowershop.model.Product;
 import lombok.Builder;
 import lombok.Data;
 
+import java.time.Instant;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Data
@@ -15,5 +18,15 @@ public class FlowerResponse {
     private Long id;
     private String kind;
     private EColor color;
+    private String description;
+    private Instant createAt;
     private List<Product> products;
+
+    public String getCreateAt() {
+        DateTimeFormatter formatter = DateTimeFormatter
+            .ofPattern("dd/MM/yyyy")
+            .withZone(ZoneId.systemDefault());
+
+        return formatter.format(this.createAt);
+    }
 }
