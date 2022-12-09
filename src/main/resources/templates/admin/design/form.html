@@ -2,24 +2,65 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:insert="~{layouts/head :: head}"></head>
 <body>
-<div class="container-fluid">
-    <div class="row flex-nowrap">
-        <div th:replace="layouts/sidebar :: sidebar"></div>
-        <div class="col mx-5 my-5 bg-light shadow-lg">
-            <h2 th:text="${action} == 'create' ? 'Create New Design Style' : 'Edit Design Style'"></h2>
-            <div class="card">
-                <div class="card-body">
-                    <form role="form"
-                          th:action="${action} == 'create' ? @{/designs/create} : @{/designs/update/{id}(id = ${design.getId()})}"
-                          th:method="post"
-                          th:object="${design}"
-                    >
-                        <div class="form-group">
-                            <label for="name">Name</label>
-                            <input type="text" id="name" th:value="*{name}" name="name" class="form-control">
+<div th:replace="layouts/info :: info"></div>
+<div class="w-screen h-screen px-12 py-16">
+    <!--  Container  -->
+    <div class="h-full rounded-2xl w-full drop-shadow-xl overflow-hidden bg-gray-50">
+        <div class="grid grid-cols-10 gap-2 flex-nowrap h-full w-full">
+            <div th:replace="layouts/sidebar :: sidebar"></div>
+
+            <div class="col col-span-8 mx-8 my-12 px-8 py-4 rounded-lg text-gray-800 bg-white h-100 drop-shadow-md">
+                <div class="container max-w-7xl mx-auto mt-8">
+                    <div class="mb-4">
+                        <h1 th:text="${action} == 'create' ? 'Thêm mới kiểu dáng' : 'Chỉnh sửa kiểu dáng'" class="flex items-center text-3xl font-semibold dark:text-white"></h1>
+                    </div>
+                    <hr class="my-4 h-px bg-gray-200 border-0 dark:bg-gray-700">
+
+                    <div class="py-5 mx-auto container max-w-2xl md:w-3/4 shadow-md">
+                        <div class="bg-gray-100 p-4 border-t-2 bg-opacity-5 border-red-400 rounded-t">
+                            <div class="max-w-sm mx-auto md:w-full md:mx-0">
+                                <div class="inline-flex items-center space-x-4"></div>
+                            </div>
                         </div>
-                        <input type="submit" class="btn btn-primary" th:value="${action} == 'create' ? 'Add' : 'Save'">
-                    </form>
+                        <div class="bg-white space-y-6">
+                            <form role="form"
+                                  th:action="${action} == 'create' ? @{/designs/create} : @{/designs/update/{id}(id = ${design.getId()})}"
+                                  th:method="post"
+                                  th:object="${design}"
+                            >
+                                <div class="md:inline-flex  space-y-4 md:space-y-0 w-full p-4 text-gray-500 items-center">
+                                    <div class="w-full mx-auto space-y-5">
+                                        <div>
+                                            <label for="title" class="block mb-2 text-ms font-medium text-gray-900 dark:text-white">Tiêu đề</label>
+                                            <div class="w-full inline-flex rounded-lg border border-red-200">
+                                                <div class="pt-2 w-1/12 bg-red-50 rounded-tl-lg rounded-bl-lg "></div>
+                                                <input id="title" th:value="*{title}" name="title" type="text" class="block p-4 w-full text-gray-900 bg-gray-50 sm:text-md rounded-tr-lg rounded-br-lg border-red-200 hover:border-red-300 focus:ring-red-300 focus:border-red-300 focus:outline-none"/>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <label for="description" class="block mb-2 text-ms font-medium text-gray-900 dark:text-white" th:required="true">Mô tả</label>
+                                            <div class="w-full inline-flex rounded-lg border border-red-200">
+                                                <div class="pt-2 w-1/12 bg-red-50 rounded-tl-lg rounded-bl-lg"></div>
+                                                <textarea id="description" th:text="*{description}" name="description" type="text" class="block p-4 w-full text-gray-900 bg-gray-50 sm:text-md rounded-tr-lg rounded-br-lg border-red-200 hover:border-red-300 focus:ring-red-300 focus:border-red-300 focus:outline-nonee"></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <hr/>
+                                <div class="md:inline-flex w-full space-y-4 md:space-y-0 px-8 py-4 text-gray-500 items-center">
+                                    <div class="md:w-3/12 text-center md:pl-6">
+                                        <button type="submit" class="w-full mx-auto max-w-sm rounded-md text-center py-2 px-4 inline-flex items-center text-green-500 bg-gradient-to-br from-green-100 to-green-200 hover:bg-gradient-to-bl focus:text-green-600 hover:text-green-600 focus:ring-2 focus:outline-none focus:ring-green-100 dark:focus:ring-green-200">
+                                            <svg fill="none" class="w-4 text-green-500 mr-2" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+                                            </svg>
+                                            <span th:text="${action} == 'create' ? 'Add' : 'Save'"></span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

@@ -36,7 +36,7 @@ public class DesignWebController {
         @RequestParam(name = "by") String by,
         @RequestParam(name = "keyword") String keyword
     ) {
-        ModelAndView response = new ModelAndView("/admin/designs/list");
+        ModelAndView response = new ModelAndView("/admin/design/list");
         List<DesignResponse> designs = designService.filterDesigns(by, keyword);
         response.addObject("designs", designs);
 

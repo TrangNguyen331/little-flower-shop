@@ -35,7 +35,7 @@ import java.util.List;
 @Table(
     name = "designs",
     uniqueConstraints = {
-        @UniqueConstraint(columnNames = "title", name = "uk_design_name")
+        @UniqueConstraint(columnNames = "title", name = "uk_design_title")
     }
 )
 public class Design implements Serializable {
