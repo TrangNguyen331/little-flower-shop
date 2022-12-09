@@ -9,7 +9,7 @@ import javax.validation.constraints.Size;
 
 @Data
 public class OccasionRequest {
-    @NotBlank(message = "Occasion name not blank")
+    @NotBlank(message = "Occasion title not blank")
     @Size(min = 2, max = 100)
     private String title;
 

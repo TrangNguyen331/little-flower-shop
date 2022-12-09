@@ -36,13 +36,12 @@ public class OccasionServiceImpl implements OccasionService {
 
     @Override
     public List<OccasionResponse> filterOccasions(String by, String keyword) {
-        List<Occasion> occasions = new ArrayList<>();
+        List<Occasion> occasions;
 
         if (Objects.equals(by, "id")) {
             try {
                 occasions = occasionRepository.findById((long) Integer.parseInt(keyword)).stream().toList();
-            }
-            catch (NumberFormatException e) { return null; };
+            } catch (NumberFormatException e) { return null; };
         } else {
             occasions = occasionRepository.filterByTitle(keyword);
         }

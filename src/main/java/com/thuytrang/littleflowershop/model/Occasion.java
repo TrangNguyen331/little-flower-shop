@@ -48,11 +48,12 @@ public class Occasion implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank(message = "Occasion name not blank")
+    @NotBlank(message = "Occasion title not blank")
     @Size(min = 2, max = 100)
     @Column(name = "title", nullable = false)
     private String title;
 
+    @Size(max = 200)
     @Column(name = "desciption")
     private String description;
 

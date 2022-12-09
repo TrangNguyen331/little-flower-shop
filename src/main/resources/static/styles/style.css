@@ -9,3 +9,13 @@
 body {
     background-color: #FDEFEB;
 }
+
+#scroll-page::-webkit-scrollbar {
+    background: #FEF2F2;
+    width: 16px;
+}
+
+#scroll-page::-webkit-scrollbar-thumb {
+    background: #F9BEBE;
+    border: 4px solid #FEF2F2;
+}

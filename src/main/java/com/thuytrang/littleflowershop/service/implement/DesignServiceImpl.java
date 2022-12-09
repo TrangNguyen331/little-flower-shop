@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class DesignServiceImpl implements DesignService {
@@ -26,11 +27,29 @@ public class DesignServiceImpl implements DesignService {
         List<DesignResponse> designResponses = new ArrayList<>();
         for (Design design: designs) {
             designResponses.add(
-                DesignResponse.builder()
-                    .id(design.getId())
-                    .name(design.getName())
-                    .products(design.getProducts())
-                    .build()
+                this.responseBuilder(design)
+            );
+        }
+
+        return designResponses;
+    }
+
+    @Override
+    public List<DesignResponse> filterDesigns(String by, String keyword) {
+        List<Design> designs;
+
+        if (Objects.equals(by, "id")) {
+            try {
+                designs = designRepository.findById((long) Integer.parseInt(keyword)).stream().toList();
+            } catch (NumberFormatException e) { return null; }
+        } else {
+            designs = designRepository.filterByTitle(keyword);
+        }
+
+        List<DesignResponse> designResponses = new ArrayList<>();
+        for (Design design: designs) {
+            designResponses.add(
+                this.responseBuilder(design)
             );
         }
 
@@ -41,39 +60,31 @@ public class DesignServiceImpl implements DesignService {
     public DesignResponse detailDesign(Long id) {
         Design design = getDesignById(id);
 
-        return DesignResponse.builder()
-            .id(design.getId())
-            .name(design.getName())
-            .products(design.getProducts())
-            .build();
+        return this.responseBuilder(design);
     }
 
     @Override
     public DesignResponse createDesign(DesignRequest designRequest) {
         Design design = Design.builder()
-            .name(designRequest.getName())
+            .title(designRequest.getTitle())
+            .description(designRequest.getDescription())
             .build();
 
         Design newDesign = designRepository.save(design);
 
-        return DesignResponse.builder()
-            .id(newDesign.getId())
-            .name(newDesign.getName())
-            .build();
+        return this.responseBuilder(newDesign);
     }
 
     @Override
     public DesignResponse updateDesign(Long id, DesignRequest designRequest) {
         Design existsDesign = getDesignById(id);
 
-        existsDesign.setName(designRequest.getName());
+        existsDesign.setTitle(designRequest.getTitle());
+        existsDesign.setDescription(designRequest.getDescription());
+
         Design updateDesign = designRepository.save(existsDesign);
 
-        return DesignResponse.builder()
-            .id(updateDesign.getId())
-            .name(updateDesign.getName())
-            .products(updateDesign.getProducts())
-            .build();
+        return responseBuilder(updateDesign);
     }
 
     @Override
@@ -99,5 +110,15 @@ public class DesignServiceImpl implements DesignService {
                     .fieldValue(id)
                     .build()
             );
+    }
+
+    private DesignResponse responseBuilder(Design design) {
+        return DesignResponse.builder()
+            .id(design.getId())
+            .title(design.getTitle())
+            .description(design.getDescription())
+            .createAt(design.getCreateAt())
+            .products(design.getProducts())
+            .build();
     }
 }

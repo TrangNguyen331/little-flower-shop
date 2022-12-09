@@ -7,7 +7,10 @@ import javax.validation.constraints.Size;
 
 @Data
 public class DesignRequest {
-    @NotBlank(message = "Design name required")
+    @NotBlank(message = "Design title required")
     @Size(min = 2, max = 100)
-    private String name;
+    private String title;
+
+    @Size(max = 200)
+    private String description;
 }

@@ -8,6 +8,7 @@ import java.util.List;
 
 public interface DesignService {
     List<DesignResponse> retrievalDesigns();
+    List<DesignResponse> filterDesigns(String by, String keyword);
     DesignResponse detailDesign(Long id);
     DesignResponse createDesign(DesignRequest designRequest);
     DesignResponse updateDesign(Long id, DesignRequest designRequest);

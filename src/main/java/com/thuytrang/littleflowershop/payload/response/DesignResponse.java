@@ -5,6 +5,9 @@ import com.thuytrang.littleflowershop.model.Product;
 import lombok.Builder;
 import lombok.Data;
 
+import java.time.Instant;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -14,20 +17,16 @@ import java.util.List;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class DesignResponse {
     private Long id;
-    private String name;
+    private String title;
+    private String description;
+    private Instant createAt;
     private List<Product> products;
 
-    public List<Product> getProducts() {
-        return this.products == null
-            ? null
-            : new ArrayList<>(products);
-    }
+    public String getCreateAt() {
+        DateTimeFormatter formatter = DateTimeFormatter
+            .ofPattern("dd/MM/yyyy")
+            .withZone(ZoneId.systemDefault());
 
-    public void setProducts(List<Product> products) {
-        if (products == null) {
-            this.products = null;
-        } else {
-            this.products = Collections.unmodifiableList(products);
-        }
+        return formatter.format(this.createAt);
     }
 }
