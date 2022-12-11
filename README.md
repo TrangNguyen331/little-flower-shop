@@ -11,7 +11,7 @@
 </p>
 
 ## About
-Web Project using Spring Boot, JPA, MySQL, Thymeleaf and Tailwind CSS
+Web Project using Spring Boot, JPA, MySQL, Thymeleaf & Tailwind CSS
 
 ## Author 
 - > [Trang Nguyen](https://github.com/TrangNguyen331/little-flower-shop)
