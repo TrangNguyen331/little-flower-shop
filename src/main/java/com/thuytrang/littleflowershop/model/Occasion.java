@@ -61,11 +61,6 @@ public class Occasion implements Serializable {
     @Column(name = "create_at", nullable = false, updatable = false)
     private Instant createAt;
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(
-        name = "product_occasion",
-        joinColumns = @JoinColumn(name = "id_occasion", referencedColumnName = "id"),
-        inverseJoinColumns = @JoinColumn(name = "id_product", referencedColumnName = "id")
-    )
+    @ManyToMany(mappedBy = "occasions")
     private List<Product> products;
 }

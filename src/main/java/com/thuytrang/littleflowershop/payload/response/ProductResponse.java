@@ -31,9 +31,13 @@ public class ProductResponse {
     private List<Occasion> occasions;
     private List<Picture> pictures;
 
-    public String getPrice() {
+    public String getFormatPrice() {
         DecimalFormat formatter = new DecimalFormat("###,###,###.00");
         return formatter.format(this.price) + " VNĐ";
+    }
+
+    public BigDecimal getPrice() {
+        return this.price;
     }
 
     public String getCreateAt() {

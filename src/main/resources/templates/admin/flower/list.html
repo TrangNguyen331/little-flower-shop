@@ -51,6 +51,7 @@
                                         <input name="by" value="color" hidden class="hidden">
                                         <select name="keyword" onchange="this.form.submit()" class="flex-shrink-0 z-10 inline-flex items-center py-2.5 px-4 sm:pr-8 text-sm font-medium text-gray-800 bg-gray-100 rounded-lg border border-red-200 hover:border-red-300 focus:ring-red-300 focus:border-red-300 focus:outline-none focus:bg-gray-50 appearance-none">
                                             <option>Màu sắc</option>
+                                            <option value="">Tất cả</option>
                                             <option th:each="color: ${colors}" th:value="${color}" th:text="${color.getDisplayValue()}">
                                             </option>
                                         </select>

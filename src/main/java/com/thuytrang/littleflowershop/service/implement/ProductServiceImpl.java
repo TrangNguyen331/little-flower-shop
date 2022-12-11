@@ -70,6 +70,7 @@ public class ProductServiceImpl implements ProductService {
                 }
             }
             case "title" -> products = productRepository.filterByTitle(keyword);
+            case "design" -> products = productRepository.filterByDesign(keyword);
             default -> products = new ArrayList<>();
         }
 
@@ -103,7 +104,7 @@ public class ProductServiceImpl implements ProductService {
             );
 
         List<Flower> flowers = flowerRepository
-            .findAllById(productRequest.getFlowerIds());
+            .findAllById(productRequest.getFlowers());
 
         List<Occasion> occasions = occasionRepository
             .findAllById(productRequest.getOccasionIds());
@@ -158,7 +159,7 @@ public class ProductServiceImpl implements ProductService {
             );
 
         List<Flower> flowers = flowerRepository
-            .findAllById(productRequest.getFlowerIds());
+            .findAllById(productRequest.getFlowers());
 
         List<Occasion> occasions = occasionRepository
             .findAllById(productRequest.getOccasionIds());

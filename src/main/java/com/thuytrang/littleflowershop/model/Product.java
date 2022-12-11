@@ -7,6 +7,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -19,6 +20,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -38,6 +40,7 @@ import java.util.List;
 @Getter @Setter(value = AccessLevel.PUBLIC)
 @AllArgsConstructor(access = AccessLevel.PACKAGE)
 @NoArgsConstructor
+@ToString
 @EntityListeners(AuditingEntityListener.class)
 @Table(name = "products")
 public class Product implements Serializable {
@@ -76,16 +79,27 @@ public class Product implements Serializable {
     @Column(name = "create_at", nullable = false, updatable = false)
     private Instant createAt;
 
-    @ManyToMany(mappedBy = "products")
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+        name = "product_flower",
+        joinColumns = @JoinColumn(name = "id_flower", referencedColumnName = "id"),
+        inverseJoinColumns = @JoinColumn(name = "id_product", referencedColumnName = "id")
+    )
     private List<Flower> flowers;
 
-    @ManyToMany(mappedBy = "products")
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+        name = "product_occasion",
+        joinColumns = @JoinColumn(name = "id_occasion", referencedColumnName = "id"),
+        inverseJoinColumns = @JoinColumn(name = "id_product", referencedColumnName = "id")
+    )
     private List<Occasion> occasions;
 
     @OneToMany(
         mappedBy = "product",
         cascade = CascadeType.ALL,
-        orphanRemoval = true
+        orphanRemoval = false
     )
     private List<Picture> pictures;
 }

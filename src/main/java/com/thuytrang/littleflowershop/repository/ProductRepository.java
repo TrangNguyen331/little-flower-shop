@@ -12,4 +12,9 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     List<Product> filterByTitle(
         @Param("keyword") String keyword
     );
+
+    @Query(value = "Select o FROM Product o WHERE o.design LIKE CONCAT('%',:keyword,'%')")
+    List<Product> filterByDesign(
+        @Param("keyword") String keyword
+    );
 }

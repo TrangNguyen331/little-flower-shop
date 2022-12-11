@@ -1,6 +1,8 @@
 package com.thuytrang.littleflowershop.payload.request;
 
+import com.thuytrang.littleflowershop.model.Flower;
 import lombok.Data;
+import lombok.ToString;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.Column;
@@ -15,6 +17,7 @@ import java.util.Collections;
 import java.util.List;
 
 @Data
+@ToString
 public class ProductRequest {
     @NotBlank(message = "Product name not blank")
     @Size(min = 2, max = 100)
@@ -33,25 +36,25 @@ public class ProductRequest {
     @NotNull(message = "Product design style not null")
     private Long designId;
 
-    private List<Long> flowerIds;
+    private List<Long> flowers;
 
     private List<Long> occasionIds;
     
     private List<MultipartFile> images;
 
-    public List<Long> getFlowerIds() {
-        return flowerIds == null
-            ? Collections.emptyList()
-            : new ArrayList<>(flowerIds);
-    }
+//    public List<Long> getFlowers() {
+//        return flowers == null
+//            ? Collections.emptyList()
+//            : new ArrayList<>(this.flowers);
+//    }
 
-    public void setFlowerIds(List<Long> flowerIds) {
-        if (flowerIds == null) {
-            this.flowerIds = null;
-        } else {
-            this.flowerIds = Collections.unmodifiableList(flowerIds);
-        }
-    }
+//    public void setFlowers(List<Long> flowerIds) {
+//        if (flowerIds == null) {
+//            this.flowers = null;
+//        } else {
+//            this.flowers = Collections.unmodifiableList(flowerIds);
+//        }
+//    }
 
     public List<Long> getOccasionIds() {
         return occasionIds == null

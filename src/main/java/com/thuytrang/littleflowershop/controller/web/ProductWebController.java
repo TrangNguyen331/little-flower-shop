@@ -87,7 +87,14 @@ public class ProductWebController {
     ) {
         ModelAndView response = new ModelAndView("/admin/product/form");
         ProductResponse product = productService.detailProduct(id);
+        List<DesignResponse> designs = designService.retrievalDesigns();
+        List<OccasionResponse> occasions = occasionService.retrievalOccasions();
+        List<FlowerResponse> flowers = flowerService.retrievalFlowers();
+
         response.addObject("product", product);
+        response.addObject("designs", designs);
+        response.addObject("flowers", flowers);
+        response.addObject("occasion", occasions);
         response.addObject("action", "edit");
 
         return response;
