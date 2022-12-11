@@ -28,7 +28,7 @@ import java.io.Serializable;
 @Table(
     name = "pictures",
     uniqueConstraints = {
-        @UniqueConstraint(columnNames = "url", name = "uk_picture_url")
+        @UniqueConstraint(columnNames = {"url", "id_product"}, name = "uk_picture_url")
     }
 )
 public class Picture implements Serializable {

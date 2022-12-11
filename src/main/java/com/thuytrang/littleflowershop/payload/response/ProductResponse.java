@@ -36,8 +36,8 @@ public class ProductResponse {
         return formatter.format(this.price) + " VNĐ";
     }
 
-    public BigDecimal getPrice() {
-        return this.price;
+    public String getFormatStorageLife() {
+        return this.storageLife + " days";
     }
 
     public String getCreateAt() {

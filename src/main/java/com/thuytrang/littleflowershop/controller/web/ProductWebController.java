@@ -48,7 +48,7 @@ public class ProductWebController {
         response.addObject("product", new ProductRequest());
         response.addObject("designs", designs);
         response.addObject("flowers", flowers);
-        response.addObject("occasion", occasions);
+        response.addObject("occasions", occasions);
         response.addObject("action", "create");
 
         return response;
@@ -94,8 +94,20 @@ public class ProductWebController {
         response.addObject("product", product);
         response.addObject("designs", designs);
         response.addObject("flowers", flowers);
-        response.addObject("occasion", occasions);
+        response.addObject("occasions", occasions);
         response.addObject("action", "edit");
+
+        return response;
+    }
+
+    @GetMapping("/view/{id}")
+    public ModelAndView viewProduct(
+        @PathVariable(name = "id") Long id
+    ) {
+        ModelAndView response = new ModelAndView("/admin/product/view");
+        ProductResponse product = productService.detailProduct(id);
+
+        response.addObject("product", product);
 
         return response;
     }

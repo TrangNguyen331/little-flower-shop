@@ -38,7 +38,7 @@ public class ProductRequest {
 
     private List<Long> flowers;
 
-    private List<Long> occasionIds;
+    private List<Long> occasions;
     
     private List<MultipartFile> images;
 
@@ -56,19 +56,19 @@ public class ProductRequest {
 //        }
 //    }
 
-    public List<Long> getOccasionIds() {
-        return occasionIds == null
-            ? Collections.emptyList()
-            : new ArrayList<>(occasionIds);
-    }
-
-    public void setOccasionIds(List<Long> occasionIds) {
-        if (occasionIds == null) {
-            this.occasionIds = null;
-        } else {
-            this.occasionIds = Collections.unmodifiableList(occasionIds);
-        }
-    }
+//    public List<Long> getOccasionIds() {
+//        return occasionIds == null
+//            ? Collections.emptyList()
+//            : new ArrayList<>(occasionIds);
+//    }
+//
+//    public void setOccasionIds(List<Long> occasionIds) {
+//        if (occasionIds == null) {
+//            this.occasionIds = null;
+//        } else {
+//            this.occasionIds = Collections.unmodifiableList(occasionIds);
+//        }
+//    }
 
     public List<MultipartFile> getImages() {
         return images == null

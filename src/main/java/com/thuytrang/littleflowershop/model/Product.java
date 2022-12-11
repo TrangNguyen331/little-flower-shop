@@ -25,6 +25,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -42,7 +43,12 @@ import java.util.List;
 @NoArgsConstructor
 @ToString
 @EntityListeners(AuditingEntityListener.class)
-@Table(name = "products")
+@Table(
+    name = "products",
+    uniqueConstraints = {
+        @UniqueConstraint(columnNames = "title", name = "uk_product_title")
+    }
+)
 public class Product implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
@@ -82,8 +88,11 @@ public class Product implements Serializable {
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
         name = "product_flower",
-        joinColumns = @JoinColumn(name = "id_flower", referencedColumnName = "id"),
-        inverseJoinColumns = @JoinColumn(name = "id_product", referencedColumnName = "id")
+        joinColumns = @JoinColumn(name = "id_product", referencedColumnName = "id"),
+        inverseJoinColumns = @JoinColumn(name = "id_flower", referencedColumnName = "id"),
+        uniqueConstraints = {@UniqueConstraint(
+            columnNames = {"id_product", "id_flower"}
+        )}
     )
     private List<Flower> flowers;
 
@@ -91,8 +100,11 @@ public class Product implements Serializable {
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
         name = "product_occasion",
-        joinColumns = @JoinColumn(name = "id_occasion", referencedColumnName = "id"),
-        inverseJoinColumns = @JoinColumn(name = "id_product", referencedColumnName = "id")
+        joinColumns = @JoinColumn(name = "id_product", referencedColumnName = "id"),
+        inverseJoinColumns = @JoinColumn(name = "id_occasion", referencedColumnName = "id"),
+        uniqueConstraints = {@UniqueConstraint(
+            columnNames = {"id_product", "id_occasion"}
+        )}
     )
     private List<Occasion> occasions;
 

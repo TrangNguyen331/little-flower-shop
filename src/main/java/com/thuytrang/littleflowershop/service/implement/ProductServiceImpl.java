@@ -107,7 +107,7 @@ public class ProductServiceImpl implements ProductService {
             .findAllById(productRequest.getFlowers());
 
         List<Occasion> occasions = occasionRepository
-            .findAllById(productRequest.getOccasionIds());
+            .findAllById(productRequest.getOccasions());
 
         List<Picture> pictures = new ArrayList<>();
         for (MultipartFile file: productRequest.getImages()) {
@@ -162,7 +162,7 @@ public class ProductServiceImpl implements ProductService {
             .findAllById(productRequest.getFlowers());
 
         List<Occasion> occasions = occasionRepository
-            .findAllById(productRequest.getOccasionIds());
+            .findAllById(productRequest.getOccasions());
 
         List<Picture> pictures = new ArrayList<>();
         for (MultipartFile file: productRequest.getImages()) {
