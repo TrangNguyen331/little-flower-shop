@@ -4,8 +4,8 @@ import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.experimental.Tolerate;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -23,8 +23,9 @@ import java.io.Serializable;
 
 @Entity
 @Builder
-@AllArgsConstructor(access = AccessLevel.PACKAGE)
 @Getter @Setter(value = AccessLevel.PUBLIC)
+@AllArgsConstructor(access = AccessLevel.PACKAGE)
+@NoArgsConstructor
 @Table(
     name = "pictures",
     uniqueConstraints = {
@@ -39,18 +40,15 @@ public class Picture implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank(message = "Picture name required")
+    @NotBlank(message = "Picture name not blank")
     @Column(name = "name")
     private String name;
 
-    @NotBlank(message = "Picture url required")
+    @NotBlank(message = "Picture url not blank")
     @Column(name = "url")
     private String url;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_product")
     private Product product;
-
-    @Tolerate
-    public Picture() { }
 }

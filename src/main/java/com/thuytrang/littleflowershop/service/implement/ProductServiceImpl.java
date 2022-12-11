@@ -12,6 +12,7 @@ import com.thuytrang.littleflowershop.payload.response.ProductResponse;
 import com.thuytrang.littleflowershop.repository.DesignRepository;
 import com.thuytrang.littleflowershop.repository.FlowerRepository;
 import com.thuytrang.littleflowershop.repository.OccasionRepository;
+import com.thuytrang.littleflowershop.repository.PictureRepository;
 import com.thuytrang.littleflowershop.repository.ProductRepository;
 import com.thuytrang.littleflowershop.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,12 +20,16 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.multipart.MultipartFile;
+import org.thymeleaf.util.ArrayUtils;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class ProductServiceImpl implements ProductService {
@@ -39,6 +44,9 @@ public class ProductServiceImpl implements ProductService {
 
     @Autowired
     private OccasionRepository occasionRepository;
+
+    @Autowired
+    private PictureRepository pictureRepository;
 
     @Value("${upload.path}")
     private String uploadPath;
@@ -109,24 +117,6 @@ public class ProductServiceImpl implements ProductService {
         List<Occasion> occasions = occasionRepository
             .findAllById(productRequest.getOccasions());
 
-        List<Picture> pictures = new ArrayList<>();
-        for (MultipartFile file: productRequest.getImages()) {
-            String fileName = file.getOriginalFilename();
-            String fileUrl = MessageFormat.format("/{0}", fileName);
-            try {
-                FileCopyUtils.copy(file.getBytes(), new File(this.uploadPath + fileName));
-            } catch (IOException exception) {
-                exception.printStackTrace();
-            }
-
-            pictures.add(
-                Picture.builder()
-                    .name(fileName)
-                    .url(fileUrl)
-                    .build()
-            );
-        }
-
         Product product = Product.builder()
             .title(productRequest.getTitle())
             .description(productRequest.getDescription())
@@ -136,10 +126,33 @@ public class ProductServiceImpl implements ProductService {
             .design(design)
             .flowers(flowers)
             .occasions(occasions)
-            .pictures(pictures)
             .build();
 
         Product newProduct = productRepository.save(product);
+
+        if (Objects.equals(productRequest.getPictures().get(0).getOriginalFilename(), "")) {
+            pictureRepository.save(Picture.builder()
+                .name("default_product.webp")
+                .url("/images/default_product.webp")
+                .product(newProduct)
+                .build());
+        } else {
+            for (MultipartFile file: productRequest.getPictures()) {
+                String fileName = file.getOriginalFilename();
+                String fileUrl = MessageFormat.format("/images/{0}", fileName);
+                try {
+                    FileCopyUtils.copy(file.getBytes(), new File(this.uploadPath + fileName));
+                } catch (IOException exception) {
+                    exception.printStackTrace();
+                }
+
+                pictureRepository.save(Picture.builder()
+                    .name(fileName)
+                    .url(fileUrl)
+                    .product(newProduct)
+                    .build());
+            }
+        }
 
         return this.responseBuilder(newProduct);
     }
@@ -164,24 +177,6 @@ public class ProductServiceImpl implements ProductService {
         List<Occasion> occasions = occasionRepository
             .findAllById(productRequest.getOccasions());
 
-        List<Picture> pictures = new ArrayList<>();
-        for (MultipartFile file: productRequest.getImages()) {
-            String fileName = file.getOriginalFilename();
-            String fileUrl = MessageFormat.format("/{0}", fileName);
-            try {
-                FileCopyUtils.copy(file.getBytes(), new File(this.uploadPath + fileName));
-            } catch (IOException exception) {
-                exception.printStackTrace();
-            }
-
-            pictures.add(
-                Picture.builder()
-                    .name(fileName)
-                    .url(fileUrl)
-                    .build()
-            );
-        }
-
         existsProduct.setTitle(productRequest.getTitle());
         existsProduct.setDescription(productRequest.getDescription());
         existsProduct.setStorageLife(productRequest.getStorageLife());
@@ -190,9 +185,33 @@ public class ProductServiceImpl implements ProductService {
         existsProduct.setDesign(design);
         existsProduct.setFlowers(flowers);
         existsProduct.setOccasions(occasions);
-        existsProduct.setPictures(pictures);
 
         Product updateProduct = productRepository.save(existsProduct);
+
+        if (Objects.equals(productRequest.getPictures().get(0).getOriginalFilename(), "")) {
+            pictureRepository.save(Picture.builder()
+                .name("default_product.webp")
+                .url("/images/default_product.webp")
+                .product(updateProduct)
+                .build());
+        } else {
+            for (MultipartFile file: productRequest.getPictures()) {
+                System.out.println(file.getOriginalFilename());
+                String fileName = file.getOriginalFilename();
+                String fileUrl = MessageFormat.format("/images/{0}", fileName);
+                try {
+                    FileCopyUtils.copy(file.getBytes(), new File(this.uploadPath + fileName));
+                } catch (IOException exception) {
+                    exception.printStackTrace();
+                }
+
+                pictureRepository.save(Picture.builder()
+                    .name(fileName)
+                    .url(fileUrl)
+                    .product(updateProduct)
+                    .build());
+            }
+        }
 
         return responseBuilder(updateProduct);
     }
@@ -200,6 +219,16 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public APIResponse deleteProduct(Long id) {
         Product existsProduct = getProductById(id);
+
+        if (!Objects.equals(existsProduct.getPictures().get(0).getName(), "default_product.webp")) {
+            for (Picture picture: existsProduct.getPictures()) {
+                try {
+                    Files.deleteIfExists(Path.of(this.uploadPath + picture.getName()));
+                } catch (IOException exception) {
+                    exception.printStackTrace();
+                }
+            }
+        }
 
         productRepository.delete(existsProduct);
 

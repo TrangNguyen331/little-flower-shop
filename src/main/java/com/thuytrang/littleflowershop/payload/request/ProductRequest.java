@@ -40,7 +40,7 @@ public class ProductRequest {
 
     private List<Long> occasions;
     
-    private List<MultipartFile> images;
+    private List<MultipartFile> pictures;
 
 //    public List<Long> getFlowers() {
 //        return flowers == null
@@ -70,17 +70,17 @@ public class ProductRequest {
 //        }
 //    }
 
-    public List<MultipartFile> getImages() {
-        return images == null
-            ? Collections.emptyList()
-            : new ArrayList<>(images);
-    }
-
-    public void setImages(List<MultipartFile> images) {
-        if (images == null) {
-            this.images = null;
-        } else {
-            this.images = Collections.unmodifiableList(images);
-        }
-    }
+//    public List<MultipartFile> getProducts() {
+//        return pictures == null
+//            ? Collections.emptyList()
+//            : new ArrayList<>(pictures);
+//    }
+//
+//    public void setProducts(List<MultipartFile> images) {
+//        if (images == null) {
+//            this.pictures = null;
+//        } else {
+//            this.pictures = Collections.unmodifiableList(images);
+//        }
+//    }
 }
