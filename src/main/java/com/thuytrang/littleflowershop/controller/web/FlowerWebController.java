@@ -34,7 +34,7 @@ public class FlowerWebController {
     }
 
     @GetMapping("/filter")
-    public  ModelAndView filterFlowers(
+    public ModelAndView filterFlowers(
         @RequestParam(name = "by") String by,
         @RequestParam(name = "keyword") String keyword
     ) {
@@ -43,7 +43,7 @@ public class FlowerWebController {
         response.addObject("flowers", flowers);
         response.addObject("colors", EColor.values());
 
-        return  response;
+        return response;
     }
 
     @GetMapping("/list")

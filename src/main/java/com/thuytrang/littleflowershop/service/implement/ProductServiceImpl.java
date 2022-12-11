@@ -58,6 +58,32 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    public List<ProductResponse> filterProducts(String by, String keyword) {
+        List<Product> products;
+
+        switch (by) {
+            case "id" -> {
+                try {
+                    products = productRepository.findById((long) Integer.parseInt(keyword)).stream().toList();
+                } catch (NumberFormatException e) {
+                    return null;
+                }
+            }
+            case "title" -> products = productRepository.filterByTitle(keyword);
+            default -> products = new ArrayList<>();
+        }
+
+        List<ProductResponse> productResponses = new ArrayList<>();
+        for (Product product: products) {
+            productResponses.add(
+                this.responseBuilder(product)
+            );
+        }
+
+        return productResponses;
+    }
+
+    @Override
     public ProductResponse detailProduct(Long id) {
         Product product = this.getProductById(id);
 
@@ -101,8 +127,8 @@ public class ProductServiceImpl implements ProductService {
         }
 
         Product product = Product.builder()
-            .name(productRequest.getName())
-            .descriptions(productRequest.getDescriptions())
+            .title(productRequest.getTitle())
+            .description(productRequest.getDescription())
             .storageLife(productRequest.getStorageLife())
             .dimensions(productRequest.getDimensions())
             .price(productRequest.getPrice())
@@ -155,8 +181,8 @@ public class ProductServiceImpl implements ProductService {
             );
         }
 
-        existsProduct.setName(productRequest.getName());
-        existsProduct.setDescriptions(productRequest.getDescriptions());
+        existsProduct.setTitle(productRequest.getTitle());
+        existsProduct.setDescription(productRequest.getDescription());
         existsProduct.setStorageLife(productRequest.getStorageLife());
         existsProduct.setDimensions(productRequest.getDimensions());
         existsProduct.setPrice(productRequest.getPrice());
@@ -164,6 +190,7 @@ public class ProductServiceImpl implements ProductService {
         existsProduct.setFlowers(flowers);
         existsProduct.setOccasions(occasions);
         existsProduct.setPictures(pictures);
+
         Product updateProduct = productRepository.save(existsProduct);
 
         return responseBuilder(updateProduct);
@@ -196,12 +223,13 @@ public class ProductServiceImpl implements ProductService {
     private ProductResponse responseBuilder(Product product) {
         return ProductResponse.builder()
             .id(product.getId())
-            .name(product.getName())
-            .descriptions(product.getDescriptions())
+            .title(product.getTitle())
+            .description(product.getDescription())
             .storageLife(product.getStorageLife())
             .dimensions(product.getDimensions())
             .price(product.getPrice())
             .design(product.getDesign())
+            .createAt(product.getCreateAt())
             .flowers(product.getFlowers())
             .occasions(product.getOccasions())
             .pictures(product.getPictures())
