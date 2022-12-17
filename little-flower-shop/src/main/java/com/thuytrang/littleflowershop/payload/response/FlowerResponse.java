@@ -1,5 +1,7 @@
 package com.thuytrang.littleflowershop.payload.response;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.thuytrang.littleflowershop.model.EColor;
 import com.thuytrang.littleflowershop.model.Product;
@@ -20,6 +22,8 @@ public class FlowerResponse {
     private EColor color;
     private String description;
     private Instant createAt;
+
+    @JsonIgnore
     private List<Product> products;
 
     public String getCreateAt() {

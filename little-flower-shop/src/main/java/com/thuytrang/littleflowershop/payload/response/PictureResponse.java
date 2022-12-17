@@ -1,5 +1,6 @@
 package com.thuytrang.littleflowershop.payload.response;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.thuytrang.littleflowershop.model.Product;
 import lombok.Builder;
@@ -12,5 +13,7 @@ public class PictureResponse {
     private Long id;
     private String name;
     private String url;
+
+    @JsonIgnore
     private Product product;
 }

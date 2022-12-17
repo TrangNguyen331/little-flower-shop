@@ -1,5 +1,6 @@
 package com.thuytrang.littleflowershop.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -71,6 +72,7 @@ public class Flower implements Serializable {
     private Instant createAt;
 
 
+    @JsonIgnore
     @ManyToMany(mappedBy = "flowers")
     private List<Product> products;
 }

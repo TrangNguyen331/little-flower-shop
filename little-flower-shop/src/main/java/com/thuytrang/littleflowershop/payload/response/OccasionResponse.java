@@ -1,5 +1,7 @@
 package com.thuytrang.littleflowershop.payload.response;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.thuytrang.littleflowershop.model.Product;
 import lombok.Builder;
@@ -18,6 +20,8 @@ public class OccasionResponse {
     private String title;
     private String description;
     private Instant createAt;
+
+    @JsonIgnore
     private List<Product> products;
 
     public String getCreateAt() {

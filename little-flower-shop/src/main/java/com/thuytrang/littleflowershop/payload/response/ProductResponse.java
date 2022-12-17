@@ -1,5 +1,7 @@
 package com.thuytrang.littleflowershop.payload.response;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.thuytrang.littleflowershop.model.Design;
 import com.thuytrang.littleflowershop.model.Flower;
@@ -27,8 +29,11 @@ public class ProductResponse {
     private BigDecimal price;
     private Design design;
     private Instant createAt;
+
     private List<Flower> flowers;
+
     private List<Occasion> occasions;
+
     private List<Picture> pictures;
 
     public String getFormatPrice() {

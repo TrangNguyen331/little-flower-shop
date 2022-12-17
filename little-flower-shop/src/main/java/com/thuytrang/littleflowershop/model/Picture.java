@@ -1,5 +1,6 @@
 package com.thuytrang.littleflowershop.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -48,6 +49,7 @@ public class Picture implements Serializable {
     @Column(name = "url")
     private String url;
 
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_product")
     private Product product;

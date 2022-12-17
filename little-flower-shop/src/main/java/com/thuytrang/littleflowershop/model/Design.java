@@ -1,5 +1,7 @@
 package com.thuytrang.littleflowershop.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -59,6 +61,7 @@ public class Design implements Serializable {
     @Column(name = "create_at", nullable = false, updatable = false)
     private Instant createAt;
 
+    @JsonIgnore
     @OneToMany(
         mappedBy = "design",
         cascade = CascadeType.ALL,
