@@ -5,6 +5,7 @@ public enum EColor {
     PINK("Hồng"),
     VIOLET("Tím"),
     YELLOW("Vàng"),
+    ORANGE("Cam"),
     RED("Đỏ"),
     GREEN("Xanh lá"),
     BLUE("Xanh dương");

@@ -26,7 +26,7 @@ public class DesignServiceImpl implements DesignService {
         List<DesignResponse> designResponses = new ArrayList<>();
         for (Design design: designs) {
             designResponses.add(
-                this.responseBuilder(design)
+                    this.responseBuilder(design)
             );
         }
 
@@ -37,20 +37,22 @@ public class DesignServiceImpl implements DesignService {
     public List<DesignResponse> filterDesigns(String by, String keyword) {
         List<Design> designs;
 
-        if (Objects.equals(by, "id")) {
-            try {
-                designs = designRepository.findById((long) Integer.parseInt(keyword)).stream().toList();
-            } catch (NumberFormatException e) {
-                return null;
+        switch (by) {
+            case "id" -> {
+                try {
+                    designs = designRepository.findById((long) Integer.parseInt(keyword)).stream().toList();
+                } catch (NumberFormatException e) {
+                    return null;
+                }
             }
-        } else {
-            designs = designRepository.filterByTitle(keyword);
+            case "title" -> designs = designRepository.filterByTitle(keyword);
+            default -> designs = designRepository.findAll();
         }
 
         List<DesignResponse> designResponses = new ArrayList<>();
         for (Design design: designs) {
             designResponses.add(
-                this.responseBuilder(design)
+                    this.responseBuilder(design)
             );
         }
 
@@ -67,9 +69,9 @@ public class DesignServiceImpl implements DesignService {
     @Override
     public DesignResponse createDesign(DesignRequest designRequest) {
         Design design = Design.builder()
-            .title(designRequest.getTitle())
-            .description(designRequest.getDescription())
-            .build();
+                .title(designRequest.getTitle())
+                .description(designRequest.getDescription())
+                .build();
 
         Design newDesign = designRepository.save(design);
 
@@ -95,30 +97,30 @@ public class DesignServiceImpl implements DesignService {
         designRepository.delete(existsDesign);
 
         return APIResponse.builder()
-            .success(Boolean.TRUE)
-            .message("Design deleted success")
-            .build();
+                .success(Boolean.TRUE)
+                .message("Design deleted success")
+                .build();
     }
 
     private Design getDesignById(Long id) {
         return designRepository
-            .findById(id)
-            .orElseThrow(() ->
-                ResourceNotFoundException.builder()
-                    .resourceName("Design")
-                    .fieldName("ID")
-                    .fieldValue(id)
-                    .build()
-            );
+                .findById(id)
+                .orElseThrow(() ->
+                        ResourceNotFoundException.builder()
+                                .resourceName("Design")
+                                .fieldName("ID")
+                                .fieldValue(id)
+                                .build()
+                );
     }
 
     private DesignResponse responseBuilder(Design design) {
         return DesignResponse.builder()
-            .id(design.getId())
-            .title(design.getTitle())
-            .description(design.getDescription())
-            .createAt(design.getCreateAt())
-            .products(design.getProducts())
-            .build();
+                .id(design.getId())
+                .title(design.getTitle())
+                .description(design.getDescription())
+                .createdAt(design.getCreatedAtString())
+                .lastModified(design.getUpdatedAtString())
+                .build();
     }
 }

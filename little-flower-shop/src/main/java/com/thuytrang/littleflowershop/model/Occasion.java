@@ -31,17 +31,16 @@ import java.util.List;
 
 @Entity
 @Builder
-@Getter @Setter(value = AccessLevel.PUBLIC)
+@Getter @Setter
 @AllArgsConstructor(access = AccessLevel.PACKAGE)
 @NoArgsConstructor
-@EntityListeners(AuditingEntityListener.class)
 @Table(
-    name = "occasions",
-    uniqueConstraints = {
-        @UniqueConstraint(columnNames = "title", name = "uk_occasion_title")
-    }
+        name = "occasions",
+        uniqueConstraints = {
+                @UniqueConstraint(columnNames = "title", name = "uk_occasion_title")
+        }
 )
-public class Occasion implements Serializable {
+public class Occasion extends DateAudit {
     @Serial
     private static final long serialVersionUID = 1L;
 
@@ -51,16 +50,12 @@ public class Occasion implements Serializable {
 
     @NotBlank(message = "Occasion title not blank")
     @Size(min = 2, max = 100)
-    @Column(name = "title", nullable = false)
+    @Column(name = "title", nullable = false, unique = true)
     private String title;
 
     @Size(max = 200)
     @Column(name = "desciption")
     private String description;
-
-    @CreatedDate
-    @Column(name = "create_at", nullable = false, updatable = false)
-    private Instant createAt;
 
     @JsonIgnore
     @ManyToMany(mappedBy = "occasions")

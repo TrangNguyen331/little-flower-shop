@@ -10,6 +10,6 @@ import org.springframework.web.servlet.ModelAndView;
 public class IndexWebController {
     @GetMapping
     public ModelAndView IndexWebView(){
-        return new ModelAndView("redirect:/products/list");
+        return new ModelAndView("redirect:/products");
     }
 }

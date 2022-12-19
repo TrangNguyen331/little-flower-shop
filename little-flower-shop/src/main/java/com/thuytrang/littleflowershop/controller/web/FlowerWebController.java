@@ -25,7 +25,7 @@ public class FlowerWebController {
 
     @GetMapping("/form")
     public ModelAndView showFormCreate() {
-        ModelAndView response = new ModelAndView("/admin/flower/form");
+        ModelAndView response = new ModelAndView("admin/flower/form");
         response.addObject("flower", new FlowerRequest());
         response.addObject("colors", EColor.values());
         response.addObject("action", "create");
@@ -35,10 +35,10 @@ public class FlowerWebController {
 
     @GetMapping("/filter")
     public ModelAndView filterFlowers(
-        @RequestParam(name = "by") String by,
-        @RequestParam(name = "keyword") String keyword
+            @RequestParam(name = "by") String by,
+            @RequestParam(name = "keyword") String keyword
     ) {
-        ModelAndView response = new ModelAndView("/admin/flower/list");
+        ModelAndView response = new ModelAndView("admin/flower/list");
         List<FlowerResponse> flowers = flowerService.filterFlowers(by, keyword);
         response.addObject("flowers", flowers);
         response.addObject("colors", EColor.values());
@@ -46,9 +46,9 @@ public class FlowerWebController {
         return response;
     }
 
-    @GetMapping("/list")
+    @GetMapping
     public ModelAndView retrievalFlowers() {
-        ModelAndView response = new ModelAndView("/admin/flower/list");
+        ModelAndView response = new ModelAndView("admin/flower/list");
         List<FlowerResponse> flowers = flowerService.retrievalFlowers();
         response.addObject("flowers", flowers);
         response.addObject("colors", EColor.values());
@@ -58,7 +58,7 @@ public class FlowerWebController {
 
     @GetMapping("/edit/{id}")
     public ModelAndView detailFlower(
-        @PathVariable(name = "id") Long id
+            @PathVariable(name = "id") Long id
     ) {
         ModelAndView response = new ModelAndView("/admin/flower/form");
         FlowerResponse flower = flowerService.detailFlower(id);
@@ -71,29 +71,29 @@ public class FlowerWebController {
 
     @PostMapping("/create")
     public RedirectView createFlower(
-        @ModelAttribute FlowerRequest body
+            @ModelAttribute FlowerRequest body
     ) {
         flowerService.createFlower(body);
 
-        return new RedirectView("/flowers/list");
+        return new RedirectView("/flowers");
     }
 
     @PostMapping("/update/{id}")
     public RedirectView updateFlower(
-        @PathVariable(name = "id") Long id,
-        @ModelAttribute FlowerRequest body
+            @PathVariable(name = "id") Long id,
+            @ModelAttribute FlowerRequest body
     ) {
         flowerService.updateFlower(id, body);
 
-        return new RedirectView("/flowers/list");
+        return new RedirectView("/flowers");
     }
 
     @GetMapping("/delete/{id}")
     public RedirectView deleteFlower(
-        @PathVariable(name = "id") Long id
+            @PathVariable(name = "id") Long id
     ) {
         flowerService.deleteFlower(id);
 
-        return new RedirectView("/flowers/list");
+        return new RedirectView("/flowers");
     }
 }

@@ -1,7 +1,6 @@
 package com.thuytrang.littleflowershop.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -30,17 +29,16 @@ import java.util.List;
 
 @Entity
 @Builder
-@Getter @Setter(value = AccessLevel.PUBLIC)
+@Getter @Setter
 @AllArgsConstructor(access = AccessLevel.PACKAGE)
 @NoArgsConstructor
-@EntityListeners(AuditingEntityListener.class)
 @Table(
-    name = "designs",
-    uniqueConstraints = {
-        @UniqueConstraint(columnNames = "title", name = "uk_design_title")
-    }
+        name = "designs",
+        uniqueConstraints = {
+                @UniqueConstraint(columnNames = "title", name = "uk_design_title")
+        }
 )
-public class Design implements Serializable {
+public class Design extends DateAudit {
     @Serial
     private static final long serialVersionUID = 1L;
 
@@ -50,22 +48,18 @@ public class Design implements Serializable {
 
     @NotBlank(message = "Design title not blank")
     @Size(min = 2, max = 100)
-    @Column(name = "title", nullable = false)
+    @Column(name = "title", nullable = false, unique = true)
     private String title;
 
     @Size(max = 200)
     @Column(name = "description")
     private String description;
 
-    @CreatedDate
-    @Column(name = "create_at", nullable = false, updatable = false)
-    private Instant createAt;
-
     @JsonIgnore
     @OneToMany(
-        mappedBy = "design",
-        cascade = CascadeType.ALL,
-        orphanRemoval = true
+            mappedBy = "design",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
     )
     private List<Product> products;
 }

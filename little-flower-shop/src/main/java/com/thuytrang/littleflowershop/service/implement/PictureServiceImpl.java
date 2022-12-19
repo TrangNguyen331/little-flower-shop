@@ -30,12 +30,11 @@ public class PictureServiceImpl  implements PictureService {
         List<PictureResponse> pictureResponses = new ArrayList<>();
         for (Picture picture: pictures) {
             pictureResponses.add(
-                PictureResponse.builder()
-                    .id(picture.getId())
-                    .name(picture.getName())
-                    .url(picture.getUrl())
-                    .product(picture.getProduct())
-                    .build()
+                    PictureResponse.builder()
+                            .id(picture.getId())
+                            .name(picture.getName())
+                            .url(picture.getUrl())
+                            .build()
             );
         }
 
@@ -47,30 +46,28 @@ public class PictureServiceImpl  implements PictureService {
         Picture picture = getPictureById(id);
 
         return PictureResponse.builder()
-            .id(picture.getId())
-            .name(picture.getName())
-            .url(picture.getUrl())
-            .product(picture.getProduct())
-            .build();
+                .id(picture.getId())
+                .name(picture.getName())
+                .url(picture.getUrl())
+                .build();
     }
 
     @Override
     public PictureResponse createPicture(PictureRequest pictureRequest) {
         Product product = getProductById(pictureRequest.getProductId());
         Picture picture = Picture.builder()
-            .name(pictureRequest.getName())
-            .url(pictureRequest.getUrl())
-            .product(product)
-            .build();
+                .name(pictureRequest.getName())
+                .url(pictureRequest.getUrl())
+                .product(product)
+                .build();
 
         Picture newPicture = pictureRepository.save(picture);
 
         return PictureResponse.builder()
-            .id(newPicture.getId())
-            .name((newPicture.getName()))
-            .url(newPicture.getUrl())
-            .product(newPicture.getProduct())
-            .build();
+                .id(newPicture.getId())
+                .name((newPicture.getName()))
+                .url(newPicture.getUrl())
+                .build();
     }
 
     @Override
@@ -84,11 +81,10 @@ public class PictureServiceImpl  implements PictureService {
         Picture updatePicture = pictureRepository.save(existsPicture);
 
         return PictureResponse.builder()
-            .id(updatePicture.getId())
-            .name(updatePicture.getName())
-            .url(updatePicture.getUrl())
-            .product(updatePicture.getProduct())
-            .build();
+                .id(updatePicture.getId())
+                .name(updatePicture.getName())
+                .url(updatePicture.getUrl())
+                .build();
     }
 
     @Override
@@ -98,23 +94,23 @@ public class PictureServiceImpl  implements PictureService {
 
     private Picture getPictureById(Long id) {
         return pictureRepository
-            .findById(id)
-            .orElseThrow(() ->
-                ResourceNotFoundException.builder()
-                    .resourceName("Picture")
-                    .fieldValue("ID")
-                    .build()
-            );
+                .findById(id)
+                .orElseThrow(() ->
+                        ResourceNotFoundException.builder()
+                                .resourceName("Picture")
+                                .fieldValue("ID")
+                                .build()
+                );
     }
 
     private Product getProductById(Long id) {
         return productRepository
-            .findById(id)
-            .orElseThrow(() ->
-                ResourceNotFoundException.builder()
-                    .resourceName("Product")
-                    .fieldValue("ID")
-                    .build()
-            );
+                .findById(id)
+                .orElseThrow(() ->
+                        ResourceNotFoundException.builder()
+                                .resourceName("Product")
+                                .fieldValue("ID")
+                                .build()
+                );
     }
 }

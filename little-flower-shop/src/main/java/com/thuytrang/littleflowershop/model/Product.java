@@ -24,6 +24,8 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotBlank;
@@ -38,18 +40,16 @@ import java.util.List;
 
 @Entity
 @Builder
-@Getter @Setter(value = AccessLevel.PUBLIC)
+@Getter @Setter
 @AllArgsConstructor(access = AccessLevel.PACKAGE)
 @NoArgsConstructor
-@ToString
-@EntityListeners(AuditingEntityListener.class)
 @Table(
-    name = "products",
-    uniqueConstraints = {
-        @UniqueConstraint(columnNames = "title", name = "uk_product_title")
-    }
+        name = "products",
+        uniqueConstraints = {
+                @UniqueConstraint(columnNames = "title", name = "uk_product_title")
+        }
 )
-public class Product implements Serializable {
+public class Product extends DateAudit {
     @Serial
     private static final long serialVersionUID = 1L;
 
@@ -81,37 +81,34 @@ public class Product implements Serializable {
     @JoinColumn(name = "id_design", nullable = false)
     private Design design;
 
-    @CreatedDate
-    @Column(name = "create_at", nullable = false, updatable = false)
-    private Instant createAt;
-
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
-        name = "product_flower",
-        joinColumns = @JoinColumn(name = "id_product", referencedColumnName = "id"),
-        inverseJoinColumns = @JoinColumn(name = "id_flower", referencedColumnName = "id"),
-        uniqueConstraints = {@UniqueConstraint(
-            columnNames = {"id_product", "id_flower"}
-        )}
+            name = "product_flower",
+            joinColumns = @JoinColumn(name = "id_product", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "id_flower", referencedColumnName = "id"),
+            uniqueConstraints = {@UniqueConstraint(
+                    columnNames = {"id_product", "id_flower"}
+            )}
     )
     private List<Flower> flowers;
 
-
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
-        name = "product_occasion",
-        joinColumns = @JoinColumn(name = "id_product", referencedColumnName = "id"),
-        inverseJoinColumns = @JoinColumn(name = "id_occasion", referencedColumnName = "id"),
-        uniqueConstraints = {@UniqueConstraint(
-            columnNames = {"id_product", "id_occasion"}
-        )}
+            name = "product_occasion",
+            joinColumns = @JoinColumn(name = "id_product", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "id_occasion", referencedColumnName = "id"),
+            uniqueConstraints = {@UniqueConstraint(
+                    columnNames = {"id_product", "id_occasion"}
+            )}
     )
     private List<Occasion> occasions;
 
-    @OneToMany(
-        mappedBy = "product",
-        cascade = CascadeType.ALL,
-        orphanRemoval = false
+    @OneToOne(
+            mappedBy = "product",
+            cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY,
+            orphanRemoval = true
     )
-    private List<Picture> pictures;
+    @PrimaryKeyJoinColumn
+    private Picture picture;
 }

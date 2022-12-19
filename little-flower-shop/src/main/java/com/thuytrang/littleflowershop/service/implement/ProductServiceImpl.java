@@ -14,6 +14,7 @@ import com.thuytrang.littleflowershop.repository.FlowerRepository;
 import com.thuytrang.littleflowershop.repository.OccasionRepository;
 import com.thuytrang.littleflowershop.repository.PictureRepository;
 import com.thuytrang.littleflowershop.repository.ProductRepository;
+import com.thuytrang.littleflowershop.service.FileStorageService;
 import com.thuytrang.littleflowershop.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -26,6 +27,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.text.MessageFormat;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -45,10 +47,9 @@ public class ProductServiceImpl implements ProductService {
     private OccasionRepository occasionRepository;
 
     @Autowired
+    private FileStorageService fileStorageService;
+    @Autowired
     private PictureRepository pictureRepository;
-
-    @Value("${upload.path}")
-    private String uploadPath;
 
     @Override
     public List<ProductResponse> retrievalProducts() {
@@ -57,7 +58,7 @@ public class ProductServiceImpl implements ProductService {
         List<ProductResponse> productResponses = new ArrayList<>();
         for (Product product: products) {
             productResponses.add(
-                this.responseBuilder(product)
+                    this.responseBuilder(product)
             );
         }
 
@@ -78,13 +79,13 @@ public class ProductServiceImpl implements ProductService {
             }
             case "title" -> products = productRepository.filterByTitle(keyword);
             case "design" -> products = productRepository.filterByDesign(keyword);
-            default -> products = new ArrayList<>();
+            default -> products = productRepository.findAll();
         }
 
         List<ProductResponse> productResponses = new ArrayList<>();
         for (Product product: products) {
             productResponses.add(
-                this.responseBuilder(product)
+                    this.responseBuilder(product)
             );
         }
 
@@ -101,57 +102,59 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public ProductResponse createProduct(ProductRequest productRequest) {
         Design design = designRepository
-            .findById(productRequest.getDesignId())
-            .orElseThrow(() ->
-                ResourceNotFoundException.builder()
-                    .resourceName("Design")
-                    .fieldName("ID")
-                    .fieldValue(productRequest.getDesignId())
-                    .build()
-            );
+                .findById(productRequest.getDesignId())
+                .orElseThrow(() ->
+                        ResourceNotFoundException.builder()
+                                .resourceName("Design")
+                                .fieldName("ID")
+                                .fieldValue(productRequest.getDesignId())
+                                .build()
+                );
 
         List<Flower> flowers = flowerRepository
-            .findAllById(productRequest.getFlowers());
+                .findAllById(productRequest.getFlowers());
 
         List<Occasion> occasions = occasionRepository
-            .findAllById(productRequest.getOccasions());
+                .findAllById(productRequest.getOccasions());
 
         Product product = Product.builder()
-            .title(productRequest.getTitle())
-            .description(productRequest.getDescription())
-            .storageLife(productRequest.getStorageLife())
-            .dimensions(productRequest.getDimensions())
-            .price(productRequest.getPrice())
-            .design(design)
-            .flowers(flowers)
-            .occasions(occasions)
-            .build();
+                .title(productRequest.getTitle())
+                .description(productRequest.getDescription())
+                .storageLife(productRequest.getStorageLife())
+                .dimensions(productRequest.getDimensions())
+                .price(productRequest.getPrice())
+                .design(design)
+                .flowers(flowers)
+                .occasions(occasions)
+                .build();
 
-        Product newProduct = productRepository.save(product);
-
-        if (Objects.equals(productRequest.getPictures().get(0).getOriginalFilename(), "")) {
-            pictureRepository.save(Picture.builder()
-                .name("default_product.webp")
-                .url("/images/default_product.webp")
-                .product(newProduct)
-                .build());
-        } else {
-            for (MultipartFile file: productRequest.getPictures()) {
-                String fileName = file.getOriginalFilename();
-                String fileUrl = MessageFormat.format("/images/{0}", fileName);
-                try {
-                    FileCopyUtils.copy(file.getBytes(), new File(this.uploadPath + fileName));
-                } catch (IOException exception) {
-                    exception.printStackTrace();
-                }
-
-                pictureRepository.save(Picture.builder()
+        if (!Objects.equals(productRequest.getPicture().getOriginalFilename(), "")) {
+            String fileName = "img_" + product.getTitle().toLowerCase() + "_" + Instant.now().getEpochSecond() + "_" + productRequest.getPicture().getOriginalFilename();
+            String fileUrl = MessageFormat.format("/files/{0}", fileName);
+            Picture picture = Picture.builder()
                     .name(fileName)
                     .url(fileUrl)
-                    .product(newProduct)
-                    .build());
-            }
+                    .product(product)
+                    .build();
+            product.setPicture(picture);
+
+            fileStorageService.save(
+                    productRequest.getPicture(),
+                    fileName
+            );
+        } else {
+            String fileName = "default_product.webp";
+            String fileUrl = MessageFormat.format("/files/{0}", fileName);
+            Picture picture = Picture.builder()
+                    .name(fileName)
+                    .url(fileUrl)
+                    .product(product)
+                    .build();
+
+            product.setPicture(picture);
         }
+
+        Product newProduct = productRepository.save(product);
 
         return this.responseBuilder(newProduct);
     }
@@ -161,20 +164,20 @@ public class ProductServiceImpl implements ProductService {
         Product existsProduct = getProductById(id);
 
         Design design = designRepository
-            .findById(productRequest.getDesignId())
-            .orElseThrow(() ->
-                ResourceNotFoundException.builder()
-                    .resourceName("Design")
-                    .fieldName("ID")
-                    .fieldValue(productRequest.getDesignId())
-                    .build()
-            );
+                .findById(productRequest.getDesignId())
+                .orElseThrow(() ->
+                        ResourceNotFoundException.builder()
+                                .resourceName("Design")
+                                .fieldName("ID")
+                                .fieldValue(productRequest.getDesignId())
+                                .build()
+                );
 
         List<Flower> flowers = flowerRepository
-            .findAllById(productRequest.getFlowers());
+                .findAllById(productRequest.getFlowers());
 
         List<Occasion> occasions = occasionRepository
-            .findAllById(productRequest.getOccasions());
+                .findAllById(productRequest.getOccasions());
 
         existsProduct.setTitle(productRequest.getTitle());
         existsProduct.setDescription(productRequest.getDescription());
@@ -185,33 +188,29 @@ public class ProductServiceImpl implements ProductService {
         existsProduct.setFlowers(flowers);
         existsProduct.setOccasions(occasions);
 
-        Product updateProduct = productRepository.save(existsProduct);
-        pictureRepository.deleteAll(updateProduct.getPictures());
+        if (!Objects.equals(productRequest.getPicture().getOriginalFilename(), "")) {
+            if (!Objects.equals(existsProduct.getPicture().getName(), "default_product.webp")) {
+                fileStorageService.delete(existsProduct.getPicture().getName());
+            }
+            pictureRepository.delete(existsProduct.getPicture());
 
-        if (Objects.equals(productRequest.getPictures().get(0).getOriginalFilename(), "")) {
-            pictureRepository.save(Picture.builder()
-                .name("default_product.webp")
-                .url("/images/default_product.webp")
-                .product(updateProduct)
-                .build());
-        } else {
-                for (MultipartFile file: productRequest.getPictures()) {
-                System.out.println(file.getOriginalFilename());
-                String fileName = file.getOriginalFilename();
-                String fileUrl = MessageFormat.format("/images/{0}", fileName);
-                try {
-                    FileCopyUtils.copy(file.getBytes(), new File(this.uploadPath + fileName));
-                } catch (IOException exception) {
-                    exception.printStackTrace();
-                }
 
-                pictureRepository.save(Picture.builder()
+            String fileName = "img_" + existsProduct.getTitle().toLowerCase() + "_" + Instant.now().getEpochSecond() + "_" + productRequest.getPicture().getOriginalFilename();
+            String fileUrl = MessageFormat.format("/files/{0}", fileName);
+            Picture picture = Picture.builder()
                     .name(fileName)
                     .url(fileUrl)
-                    .product(updateProduct)
-                    .build());
-            }
+                    .product(existsProduct)
+                    .build();
+            existsProduct.setPicture(picture);
+
+            fileStorageService.save(
+                    productRequest.getPicture(),
+                    fileName
+            );
         }
+
+        Product updateProduct = productRepository.save(existsProduct);
 
         return responseBuilder(updateProduct);
     }
@@ -220,49 +219,44 @@ public class ProductServiceImpl implements ProductService {
     public APIResponse deleteProduct(Long id) {
         Product existsProduct = getProductById(id);
 
-        if (!Objects.equals(existsProduct.getPictures().get(0).getName(), "default_product.webp")) {
-            for (Picture picture: existsProduct.getPictures()) {
-                try {
-                    Files.deleteIfExists(Path.of(this.uploadPath + picture.getName()));
-                } catch (IOException exception) {
-                    exception.printStackTrace();
-                }
-            }
+        if (!Objects.equals(existsProduct.getPicture().getName(), "default_product.webp")) {
+            fileStorageService.delete(existsProduct.getPicture().getName());
         }
 
         productRepository.delete(existsProduct);
 
         return APIResponse.builder()
-            .success(Boolean.TRUE)
-            .message("Product deleted success")
-            .build();
+                .success(Boolean.TRUE)
+                .message("Product deleted success")
+                .build();
     }
 
     private Product getProductById(Long id) {
         return productRepository
-            .findById(id)
-            .orElseThrow(() ->
-                ResourceNotFoundException.builder()
-                    .resourceName("Product")
-                    .fieldName("ID")
-                    .fieldValue(id)
-                    .build()
-            );
+                .findById(id)
+                .orElseThrow(() ->
+                        ResourceNotFoundException.builder()
+                                .resourceName("Product")
+                                .fieldName("ID")
+                                .fieldValue(id)
+                                .build()
+                );
     }
 
     private ProductResponse responseBuilder(Product product) {
         return ProductResponse.builder()
-            .id(product.getId())
-            .title(product.getTitle())
-            .description(product.getDescription())
-            .storageLife(product.getStorageLife())
-            .dimensions(product.getDimensions())
-            .price(product.getPrice())
-            .design(product.getDesign())
-            .createAt(product.getCreateAt())
-            .flowers(product.getFlowers())
-            .occasions(product.getOccasions())
-            .pictures(product.getPictures())
-            .build();
+                .id(product.getId())
+                .title(product.getTitle())
+                .description(product.getDescription())
+                .storageLife(product.getStorageLife())
+                .dimensions(product.getDimensions())
+                .price(product.getPrice())
+                .design(product.getDesign())
+                .flowers(product.getFlowers())
+                .occasions(product.getOccasions())
+                .picture(product.getPicture())
+                .createAt(product.getCreatedAtString())
+                .lastModified(product.getCreatedAtString())
+                .build();
     }
 }

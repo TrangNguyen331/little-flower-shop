@@ -25,7 +25,7 @@ public class FlowerServiceImpl implements FlowerService {
         List<FlowerResponse> flowerResponses = new ArrayList<>();
         for (Flower flower: flowers) {
             flowerResponses.add(
-                this.responseBuilder(flower)
+                    this.responseBuilder(flower)
             );
         }
 
@@ -46,13 +46,13 @@ public class FlowerServiceImpl implements FlowerService {
             }
             case "kind" -> flowers = flowerRepository.filterByKind(keyword);
             case "color" -> flowers = flowerRepository.filterByColor(keyword);
-            default -> flowers = new ArrayList<>();
+            default -> flowers = flowerRepository.findAll();
         }
 
         List<FlowerResponse> flowerResponses = new ArrayList<>();
         for (Flower flower: flowers) {
             flowerResponses.add(
-                this.responseBuilder(flower)
+                    this.responseBuilder(flower)
             );
         }
 
@@ -69,10 +69,10 @@ public class FlowerServiceImpl implements FlowerService {
     @Override
     public FlowerResponse createFlower(FlowerRequest flowerRequest) {
         Flower flower = Flower.builder()
-            .kind(flowerRequest.getKind())
-            .color(flowerRequest.getColor())
-            .description(flowerRequest.getDescription())
-            .build();
+                .kind(flowerRequest.getKind())
+                .color(flowerRequest.getColor())
+                .description(flowerRequest.getDescription())
+                .build();
 
         Flower newFlower = flowerRepository.save(flower);
 
@@ -99,30 +99,31 @@ public class FlowerServiceImpl implements FlowerService {
         flowerRepository.delete(existsFlower);
 
         return APIResponse.builder()
-            .success(Boolean.TRUE)
-            .message("Flower deleted success")
-            .build();
+                .success(Boolean.TRUE)
+                .message("Flower deleted success")
+                .build();
     }
 
     private Flower getFlowerById(Long id) {
         return flowerRepository
-            .findById(id)
-            .orElseThrow(() ->
-                ResourceNotFoundException.builder()
-                    .resourceName("Flower")
-                    .fieldName("ID")
-                    .fieldValue(id)
-                    .build()
-            );
+                .findById(id)
+                .orElseThrow(() ->
+                        ResourceNotFoundException.builder()
+                                .resourceName("Flower")
+                                .fieldName("ID")
+                                .fieldValue(id)
+                                .build()
+                );
     }
 
     private FlowerResponse responseBuilder(Flower flower) {
         return FlowerResponse.builder()
-            .id(flower.getId())
-            .kind(flower.getKind())
-            .color(flower.getColor())
-            .description(flower.getDescription())
-            .createAt(flower.getCreateAt())
-            .build();
+                .id(flower.getId())
+                .kind(flower.getKind())
+                .color(flower.getColor())
+                .description(flower.getDescription())
+                .createAt(flower.getCreatedAtString())
+                .lastModified(flower.getUpdatedAtString())
+                .build();
     }
 }

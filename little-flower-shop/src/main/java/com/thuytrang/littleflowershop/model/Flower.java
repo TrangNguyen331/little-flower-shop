@@ -35,20 +35,19 @@ import java.util.List;
 
 @Entity
 @Builder
-@Getter @Setter(value = AccessLevel.PUBLIC)
+@Getter @Setter
 @AllArgsConstructor(access = AccessLevel.PACKAGE)
 @NoArgsConstructor
-@EntityListeners(AuditingEntityListener.class)
 @Table(
-    name = "flowers",
-    uniqueConstraints = {
-        @UniqueConstraint(columnNames = {"kind", "color"}, name = "uk_flower_kind_color")
-    }
+        name = "flowers",
+        uniqueConstraints = {
+                @UniqueConstraint(columnNames = {"kind", "color"}, name = "uk_flower_kind_color")
+        }
 )
-public class Flower implements Serializable {
+public class Flower extends DateAudit {
     @Serial
     private static final long serialVersionUID = 1L;
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -66,11 +65,6 @@ public class Flower implements Serializable {
     @Size(max = 200)
     @Column(name = "description")
     private String description;
-
-    @CreatedDate
-    @Column(name = "create_at", nullable = false, updatable = false)
-    private Instant createAt;
-
 
     @JsonIgnore
     @ManyToMany(mappedBy = "flowers")

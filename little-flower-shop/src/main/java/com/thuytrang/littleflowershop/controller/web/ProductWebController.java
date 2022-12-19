@@ -40,7 +40,7 @@ public class ProductWebController {
 
     @GetMapping("/form")
     public ModelAndView showFormCreate() {
-        ModelAndView response = new ModelAndView("/admin/product/form");
+        ModelAndView response = new ModelAndView("admin/product/form");
         List<DesignResponse> designs = designService.retrievalDesigns();
         List<FlowerResponse> flowers = flowerService.retrievalFlowers();
         List<OccasionResponse> occasions = occasionService.retrievalOccasions();
@@ -56,10 +56,10 @@ public class ProductWebController {
 
     @GetMapping("/filter")
     public ModelAndView filterFlowers(
-        @RequestParam(name = "by") String by,
-        @RequestParam(name = "keyword") String keyword
+            @RequestParam(name = "by") String by,
+            @RequestParam(name = "keyword") String keyword
     ) {
-        ModelAndView response = new ModelAndView("/admin/product/list");
+        ModelAndView response = new ModelAndView("admin/product/list");
         List<ProductResponse> products = productService.filterProducts(by, keyword);
         List<DesignResponse> designs = designService.retrievalDesigns();
 
@@ -69,9 +69,9 @@ public class ProductWebController {
         return response;
     }
 
-    @GetMapping("/list")
+    @GetMapping
     public ModelAndView retrievalProducts() {
-        ModelAndView response = new ModelAndView(("/admin/product/list"));
+        ModelAndView response = new ModelAndView("admin/product/list");
         List<ProductResponse> products = productService.retrievalProducts();
         List<DesignResponse> designs = designService.retrievalDesigns();
 
@@ -83,9 +83,9 @@ public class ProductWebController {
 
     @GetMapping("/edit/{id}")
     public ModelAndView detailProduct(
-        @PathVariable(name = "id") Long id
+            @PathVariable(name = "id") Long id
     ) {
-        ModelAndView response = new ModelAndView("/admin/product/form");
+        ModelAndView response = new ModelAndView("admin/product/form");
         ProductResponse product = productService.detailProduct(id);
         List<DesignResponse> designs = designService.retrievalDesigns();
         List<OccasionResponse> occasions = occasionService.retrievalOccasions();
@@ -102,9 +102,9 @@ public class ProductWebController {
 
     @GetMapping("/view/{id}")
     public ModelAndView viewProduct(
-        @PathVariable(name = "id") Long id
+            @PathVariable(name = "id") Long id
     ) {
-        ModelAndView response = new ModelAndView("/admin/product/view");
+        ModelAndView response = new ModelAndView("admin/product/view");
         ProductResponse product = productService.detailProduct(id);
 
         response.addObject("product", product);
@@ -114,29 +114,29 @@ public class ProductWebController {
 
     @PostMapping("/create")
     public RedirectView createProduct(
-        @ModelAttribute ProductRequest body
+            @ModelAttribute ProductRequest body
     ) {
         productService.createProduct(body);
 
-        return new RedirectView("/products/list");
+        return new RedirectView("/products");
     }
 
     @PostMapping("/update/{id}")
     public RedirectView updateProduct(
-        @PathVariable(name = "id") Long id,
-        @ModelAttribute ProductRequest body
+            @PathVariable(name = "id") Long id,
+            @ModelAttribute ProductRequest body
     ) {
         productService.updateProduct(id, body);
 
-        return new RedirectView("/products/list");
+        return new RedirectView("/products");
     }
 
     @GetMapping("/delete/{id}")
     public RedirectView deleteProduct(
-        @PathVariable(name = "id") Long id
+            @PathVariable(name = "id") Long id
     ) {
         productService.deleteProduct(id);
 
-        return new RedirectView("/products/list");
+        return new RedirectView("/products");
     }
 }

@@ -39,48 +39,6 @@ public class ProductRequest {
     private List<Long> flowers;
 
     private List<Long> occasions;
-    
-    private List<MultipartFile> pictures;
 
-//    public List<Long> getFlowers() {
-//        return flowers == null
-//            ? Collections.emptyList()
-//            : new ArrayList<>(this.flowers);
-//    }
-
-//    public void setFlowers(List<Long> flowerIds) {
-//        if (flowerIds == null) {
-//            this.flowers = null;
-//        } else {
-//            this.flowers = Collections.unmodifiableList(flowerIds);
-//        }
-//    }
-
-//    public List<Long> getOccasionIds() {
-//        return occasionIds == null
-//            ? Collections.emptyList()
-//            : new ArrayList<>(occasionIds);
-//    }
-//
-//    public void setOccasionIds(List<Long> occasionIds) {
-//        if (occasionIds == null) {
-//            this.occasionIds = null;
-//        } else {
-//            this.occasionIds = Collections.unmodifiableList(occasionIds);
-//        }
-//    }
-
-//    public List<MultipartFile> getProducts() {
-//        return pictures == null
-//            ? Collections.emptyList()
-//            : new ArrayList<>(pictures);
-//    }
-//
-//    public void setProducts(List<MultipartFile> images) {
-//        if (images == null) {
-//            this.pictures = null;
-//        } else {
-//            this.pictures = Collections.unmodifiableList(images);
-//        }
-//    }
+    private MultipartFile picture;
 }

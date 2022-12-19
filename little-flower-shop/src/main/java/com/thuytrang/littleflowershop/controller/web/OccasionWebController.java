@@ -34,19 +34,19 @@ public class OccasionWebController {
 
     @GetMapping("/filter")
     public ModelAndView filterOccasions(
-        @RequestParam(name = "by") String by,
-        @RequestParam(name = "keyword") String keyword
+            @RequestParam(name = "by") String by,
+            @RequestParam(name = "keyword") String keyword
     ) {
-        ModelAndView response = new ModelAndView("/admin/occasion/list");
+        ModelAndView response = new ModelAndView("admin/occasion/list");
         List<OccasionResponse> occasions = occasionService.filterOccasions(by, keyword);
         response.addObject("occasions", occasions);
 
         return  response;
     }
 
-    @GetMapping("/list")
+    @GetMapping
     public ModelAndView retrievalOccasions() {
-        ModelAndView response = new ModelAndView("/admin/occasion/list");
+        ModelAndView response = new ModelAndView("admin/occasion/list");
         List<OccasionResponse> occasions = occasionService.retrievalOccasions();
         response.addObject("occasions", occasions);
 
@@ -55,9 +55,9 @@ public class OccasionWebController {
 
     @GetMapping("/edit/{id}")
     public ModelAndView detailOccasion(
-        @PathVariable(name = "id") Long id
+            @PathVariable(name = "id") Long id
     ) {
-        ModelAndView response = new ModelAndView("/admin/occasion/form");
+        ModelAndView response = new ModelAndView("admin/occasion/form");
         OccasionResponse occasion = occasionService.detailOccasion(id);
         response.addObject("occasion", occasion);
         response.addObject("action", "edit");
@@ -67,29 +67,29 @@ public class OccasionWebController {
 
     @PostMapping("/create")
     public RedirectView createDesign(
-        @ModelAttribute OccasionRequest body
+            @ModelAttribute OccasionRequest body
     ) {
         occasionService.createOccasion(body);
 
-        return new RedirectView("/occasions/list");
+        return new RedirectView("/occasions");
     }
 
     @PostMapping("/update/{id}")
     public RedirectView updateOccasion(
-        @PathVariable(name = "id") Long id,
-        @ModelAttribute OccasionRequest body
+            @PathVariable(name = "id") Long id,
+            @ModelAttribute OccasionRequest body
     ) {
         occasionService.updateOccasion(id, body);
 
-        return new RedirectView("/occasions/list");
+        return new RedirectView("/occasions");
     }
 
     @GetMapping("/delete/{id}")
     public RedirectView deleteOccasion(
-        @PathVariable(name = "id") Long id
+            @PathVariable(name = "id") Long id
     ) {
         occasionService.deleteOccasion(id);
 
-        return new RedirectView("/occasions/list");
+        return new RedirectView("/occasions");
     }
 }

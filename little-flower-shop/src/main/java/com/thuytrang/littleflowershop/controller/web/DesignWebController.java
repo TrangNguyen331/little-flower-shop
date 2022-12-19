@@ -24,7 +24,7 @@ public class DesignWebController {
 
     @GetMapping("/form")
     public ModelAndView showFormCreate() {
-        ModelAndView response = new ModelAndView("/admin/design/form");
+        ModelAndView response = new ModelAndView("admin/design/form");
         response.addObject("design", new DesignRequest());
         response.addObject("action", "create");
 
@@ -33,19 +33,19 @@ public class DesignWebController {
 
     @GetMapping("/filter")
     public ModelAndView filterDesigns(
-        @RequestParam(name = "by") String by,
-        @RequestParam(name = "keyword") String keyword
+            @RequestParam(name = "by") String by,
+            @RequestParam(name = "keyword") String keyword
     ) {
-        ModelAndView response = new ModelAndView("/admin/design/list");
+        ModelAndView response = new ModelAndView("admin/design/list");
         List<DesignResponse> designs = designService.filterDesigns(by, keyword);
         response.addObject("designs", designs);
 
         return response;
     }
 
-    @GetMapping("/list")
+    @GetMapping
     public ModelAndView retrievalDesigns() {
-        ModelAndView response = new ModelAndView("/admin/design/list");
+        ModelAndView response = new ModelAndView("admin/design/list");
         List<DesignResponse> designs = designService.retrievalDesigns();
         response.addObject("designs", designs);
 
@@ -54,9 +54,9 @@ public class DesignWebController {
 
     @GetMapping("/edit/{id}")
     public ModelAndView detailDesign(
-        @PathVariable(name = "id") Long id
+            @PathVariable(name = "id") Long id
     ) {
-        ModelAndView response = new ModelAndView("/admin/design/form");
+        ModelAndView response = new ModelAndView("admin/design/form");
         DesignResponse design = designService.detailDesign(id);
         response.addObject("design", design);
         response.addObject("action", "edit");
@@ -66,29 +66,29 @@ public class DesignWebController {
 
     @PostMapping("/create")
     public RedirectView createDesign(
-        @ModelAttribute DesignRequest body
+            @ModelAttribute DesignRequest body
     ) {
         designService.createDesign(body);
 
-        return new RedirectView("/designs/list");
+        return new RedirectView("/designs");
     }
 
     @PostMapping("/update/{id}")
     public RedirectView updateDesign(
-        @PathVariable(name = "id") Long id,
-        @ModelAttribute DesignRequest body
+            @PathVariable(name = "id") Long id,
+            @ModelAttribute DesignRequest body
     ) {
         designService.updateDesign(id, body);
 
-        return new RedirectView("/designs/list");
+        return new RedirectView("/designs");
     }
 
     @GetMapping("/delete/{id}")
     public RedirectView deleteDesign(
-        @PathVariable(name = "id") Long id
+            @PathVariable(name = "id") Long id
     ) {
         designService.deleteDesign(id);
 
-        return new RedirectView("/designs/list");
+        return new RedirectView("/designs");
     }
 }

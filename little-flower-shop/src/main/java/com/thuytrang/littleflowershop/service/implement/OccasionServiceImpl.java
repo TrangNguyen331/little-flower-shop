@@ -26,7 +26,7 @@ public class OccasionServiceImpl implements OccasionService {
         List<OccasionResponse> occasionResponses = new ArrayList<>();
         for (Occasion occasion: occasions) {
             occasionResponses.add(
-                this.responseBuilder(occasion)
+                    this.responseBuilder(occasion)
             );
         }
 
@@ -37,20 +37,22 @@ public class OccasionServiceImpl implements OccasionService {
     public List<OccasionResponse> filterOccasions(String by, String keyword) {
         List<Occasion> occasions;
 
-        if (Objects.equals(by, "id")) {
-            try {
-                occasions = occasionRepository.findById((long) Integer.parseInt(keyword)).stream().toList();
-            } catch (NumberFormatException e) {
-                return null;
+        switch (by) {
+            case "id" -> {
+                try {
+                    occasions = occasionRepository.findById((long) Integer.parseInt(keyword)).stream().toList();
+                } catch (NumberFormatException e) {
+                    return null;
+                }
             }
-        } else {
-            occasions = occasionRepository.filterByTitle(keyword);
+            case "title" -> occasions = occasionRepository.filterByTitle(keyword);
+            default -> occasions = occasionRepository.findAll();
         }
 
         List<OccasionResponse> occasionResponses = new ArrayList<>();
         for (Occasion occasion: occasions) {
             occasionResponses.add(
-                this.responseBuilder(occasion)
+                    this.responseBuilder(occasion)
             );
         }
 
@@ -67,9 +69,9 @@ public class OccasionServiceImpl implements OccasionService {
     @Override
     public OccasionResponse createOccasion(OccasionRequest occasionRequest) {
         Occasion occasion = Occasion.builder()
-            .title(occasionRequest.getTitle())
-            .description(occasionRequest.getDescription())
-            .build();
+                .title(occasionRequest.getTitle())
+                .description(occasionRequest.getDescription())
+                .build();
 
         Occasion newOccasion = occasionRepository.save(occasion);
 
@@ -95,30 +97,30 @@ public class OccasionServiceImpl implements OccasionService {
         occasionRepository.delete(existsOccasion);
 
         return APIResponse.builder()
-            .success(Boolean.TRUE)
-            .message("Occasion deleted success")
-            .build();
+                .success(Boolean.TRUE)
+                .message("Occasion deleted success")
+                .build();
     }
 
     private Occasion getOccasionById(Long id) {
         return occasionRepository
-            .findById(id)
-            .orElseThrow(() ->
-                ResourceNotFoundException.builder()
-                    .resourceName("Occasion")
-                    .fieldName("ID")
-                    .fieldValue(id)
-                    .build()
-            );
+                .findById(id)
+                .orElseThrow(() ->
+                        ResourceNotFoundException.builder()
+                                .resourceName("Occasion")
+                                .fieldName("ID")
+                                .fieldValue(id)
+                                .build()
+                );
     }
 
     private OccasionResponse responseBuilder(Occasion occasion) {
         return OccasionResponse.builder()
-            .id(occasion.getId())
-            .title(occasion.getTitle())
-            .description(occasion.getDescription())
-            .createAt(occasion.getCreateAt())
-            .products(occasion.getProducts())
-            .build();
+                .id(occasion.getId())
+                .title(occasion.getTitle())
+                .description(occasion.getDescription())
+                .createAt(occasion.getCreatedAtString())
+                .lastModified(occasion.getUpdatedAtString())
+                .build();
     }
 }

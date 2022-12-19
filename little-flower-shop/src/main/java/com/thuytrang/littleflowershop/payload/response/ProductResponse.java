@@ -1,7 +1,6 @@
 package com.thuytrang.littleflowershop.payload.response;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.thuytrang.littleflowershop.model.Design;
 import com.thuytrang.littleflowershop.model.Flower;
@@ -10,6 +9,8 @@ import com.thuytrang.littleflowershop.model.Picture;
 import lombok.Builder;
 import lombok.Data;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.time.Instant;
@@ -20,7 +21,11 @@ import java.util.List;
 @Data
 @Builder
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class ProductResponse {
+public class ProductResponse implements Serializable {
+    @Serial
+    @JsonIgnore
+    private static final long serialVersionUID = 1L;
+
     private Long id;
     private String title;
     private String description;
@@ -28,13 +33,11 @@ public class ProductResponse {
     private String dimensions;
     private BigDecimal price;
     private Design design;
-    private Instant createAt;
-
+    private String createAt;
+    private String lastModified;
     private List<Flower> flowers;
-
     private List<Occasion> occasions;
-
-    private List<Picture> pictures;
+    private Picture picture;
 
     public String getFormatPrice() {
         DecimalFormat formatter = new DecimalFormat("###,###,###.00");
@@ -43,13 +46,5 @@ public class ProductResponse {
 
     public String getFormatStorageLife() {
         return this.storageLife + " days";
-    }
-
-    public String getCreateAt() {
-        DateTimeFormatter formatter = DateTimeFormatter
-            .ofPattern("dd/MM/yyyy")
-            .withZone(ZoneId.systemDefault());
-
-        return formatter.format(this.createAt);
     }
 }

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Error...</title>
+    <head th:insert="~{layouts/head :: head}"></head>
+    <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Dosis:400,300,500,800'>
+    <link th:href="@{/styles/style.css}" rel="stylesheet" />
+</head>
+<body>
+<div class="w-screen h-screen px-12 py-16">
+    <!--  Container  -->
+    <div class="h-full rounded-2xl w-full drop-shadow-xl overflow-hidden bg-gray-50">
+        <div class="grid grid-cols-10 gap-2 flex-nowrap h-full w-full">
+            <div class="col col-span-10 w-full h-full content">
+                <canvas class="snow" id="snow"></canvas>
+                <div class="main-text">
+                    <h1 class="font-semibold">'-')b
+                        <br/><span class="font-normal">Something has error</span>
+                    </h1>
+                    <a class="home-link" href="/products">Go back home</a>
+                </div>
+                <div class="ground">
+                    <div class="mound">
+                        <div class="mound_text">404</div>
+                        <div class="mound_spade"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script th:src="@{/scripts/script.js}"></script>
+</body>
+</html>
