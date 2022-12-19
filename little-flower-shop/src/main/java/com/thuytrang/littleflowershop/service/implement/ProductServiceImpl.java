@@ -186,6 +186,7 @@ public class ProductServiceImpl implements ProductService {
         existsProduct.setOccasions(occasions);
 
         Product updateProduct = productRepository.save(existsProduct);
+        pictureRepository.deleteAll(updateProduct.getPictures());
 
         if (Objects.equals(productRequest.getPictures().get(0).getOriginalFilename(), "")) {
             pictureRepository.save(Picture.builder()
@@ -194,7 +195,7 @@ public class ProductServiceImpl implements ProductService {
                 .product(updateProduct)
                 .build());
         } else {
-            for (MultipartFile file: productRequest.getPictures()) {
+                for (MultipartFile file: productRequest.getPictures()) {
                 System.out.println(file.getOriginalFilename());
                 String fileName = file.getOriginalFilename();
                 String fileUrl = MessageFormat.format("/images/{0}", fileName);

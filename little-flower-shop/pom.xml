@@ -110,6 +110,7 @@
 					<layout>WAR</layout>
 					<executable>true</executable>
 					<mainClass>com.thuytrang.littleflowershop.LittleFlowerShopApplication</mainClass>
+					<addResources>true</addResources>s
 				</configuration>
 			</plugin>
 		</plugins>

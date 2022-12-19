@@ -18,8 +18,6 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
         )
     )
 )
-@EntityScan(basePackageClasses = LittleFlowerShopApplication.class)
-@EnableJpaAuditing
 @SpringBootApplication
 public class LittleFlowerShopApplication {
 
