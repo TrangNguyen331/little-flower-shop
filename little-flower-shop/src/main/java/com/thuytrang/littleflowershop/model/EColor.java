@@ -12,7 +12,7 @@ public enum EColor {
 
     private final String displayValue;
 
-    private EColor(String displayValue) {
+    EColor(String displayValue) {
         this.displayValue = displayValue;
     }
 
